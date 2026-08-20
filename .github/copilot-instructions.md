@@ -1,6 +1,6 @@
 # GitHub Copilot Instructions
 
-When a user provides an Azure Boards ticket ID, use the MCP/server endpoint to fetch the work item first.
+When a user provides an Azure Boards ticket ID or URL, use the MCP/server endpoint to fetch the work item first.
 
 Required workflow:
 1. Fetch the work item by ID.

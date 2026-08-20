@@ -1,37 +1,34 @@
 # Azure Boards MCP Testcases
 
-Starter repository for wiring GitHub Copilot to Azure Boards via an MCP server so ticket details can be fetched and transformed into QA test cases.
+Minimal setup for using GitHub Copilot + MCP to fetch Azure Boards work items and generate QA test cases.
 
-## What this repo does
-- Read Azure Boards work items by ticket ID
-- Pass title, description, acceptance criteria, state, tags, and work item type to Copilot
-- Generate QA test cases from the ticket context
-- Keep Azure DevOps credentials outside the repo using environment variables
+## What is configured
+- MCP server tool: `get_work_item`
+- Input accepted by the tool: Azure Boards ticket ID **or** work item URL
+- Output fields: title, description, acceptance criteria, state, tags, work item type, assigned user, comments
+- Copilot instructions in `.github/copilot-instructions.md` for generating test cases from fetched ticket context
 
-## Files in this starter
-- `package.json` - project metadata and scripts
-- `.gitignore` - ignores local and secret files
-- `.env.example` - Azure Boards environment variable template
-- `.github/copilot-instructions.md` - Copilot workflow instructions
-- `mcp-server/index.js` - starter Azure Boards fetch server
+## Setup
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. In VS Code/Copilot Chat, the workspace MCP config is in `.vscode/mcp.json`.
+3. Start Copilot Chat and connect the `azure-boards` MCP server (it will prompt for):
+   - `AZDO_ORG`
+   - `AZDO_PROJECT`
+   - `AZDO_PAT`
 
-## Environment variables
-Copy `.env.example` to `.env` and fill in your Azure DevOps values:
-- `AZDO_ORG`
-- `AZDO_PROJECT`
-- `AZDO_PAT`
-- `PORT`
+## Usage in Copilot Chat
+Use a prompt like:
 
-## How to run
-```bash
-npm install
-npm start
+```text
+Fetch work item from this ticket and generate QA test cases:
+https://dev.azure.com/<org>/<project>/_workitems/edit/209974
 ```
 
-## Example request
-```bash
-curl "http://localhost:3000/work-item?id=123"
-```
+or:
 
-## Next step
-Connect the server to your real Azure Boards tenant, then use the returned work item data to generate test cases.
+```text
+Generate QA test cases for Azure Boards ticket 209974.
+```

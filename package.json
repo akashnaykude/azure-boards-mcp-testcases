@@ -8,6 +8,10 @@
     "start": "node mcp-server/index.js",
     "dev": "node mcp-server/index.js"
   },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.17.2",
+    "zod": "^3.24.1"
+  },
   "engines": {
     "node": ">=20"
   }

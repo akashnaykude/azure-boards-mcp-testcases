@@ -1,0 +1,33 @@
+{
+  "servers": {
+    "azure-boards": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "mcp-server/index.js"
+      ],
+      "env": {
+        "AZDO_ORG": "${input:azdoOrg}",
+        "AZDO_PROJECT": "${input:azdoProject}",
+        "AZDO_PAT": "${input:azdoPat}"
+      }
+    }
+  },
+  "inputs": [
+    {
+      "id": "azdoOrg",
+      "type": "promptString",
+      "description": "Azure DevOps organization"
+    },
+    {
+      "id": "azdoProject",
+      "type": "promptString",
+      "description": "Azure DevOps project"
+    },
+    {
+      "id": "azdoPat",
+      "type": "promptString",
+      "description": "Azure DevOps PAT"
+    }
+  ]
+}
