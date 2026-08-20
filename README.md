@@ -2,6 +2,8 @@
 
 MCP server that lets GitHub Copilot generate QA test cases from Azure Boards tickets. Just paste a ticket URL in Copilot Chat.
 
+## Make sure Agent option is selected
+
 ## Setup
 
 1. `npm install`
@@ -17,3 +19,7 @@ MCP server that lets GitHub Copilot generate QA test cases from Azure Boards tic
 3. Copilot automatically reads the ticket (title, description, acceptance criteria, comments, related work items, attachments) and generates QA test cases.
 
 
+## Restart MCP Server
+Ctrl+Shift+P → type MCP: List Servers
+Select azure-boards
+Click Restart

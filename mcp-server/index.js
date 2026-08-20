@@ -1,6 +1,11 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { z } from 'zod';
+import * as XLSX from 'xlsx';
+import mammoth from 'mammoth';
+import { PDFParse } from 'pdf-parse';
+import Tesseract from 'tesseract.js';
+import { pdf as pdfToImg } from 'pdf-to-img';
 
 const REQUIRED_ENV_VARS = ['AZDO_ORG', 'AZDO_PROJECT', 'AZDO_PAT'];
 const DEFAULT_API_VERSION = '7.1-preview.3';
@@ -45,6 +50,96 @@ function buildAuthHeaders() {
   };
 }
 
+async function downloadAttachment(attachment, headers) {
+  const { name, url } = attachment;
+  if (!url) return { name, url, content: null, error: 'No URL' };
+
+  try {
+    const response = await fetch(url, { headers });
+    if (!response.ok) {
+      return { name, url, content: null, error: `HTTP ${response.status}` };
+    }
+
+    const ext = (name || '').toLowerCase().split('.').pop();
+
+    if (ext === 'xlsx' || ext === 'xls') {
+      const buffer = await response.arrayBuffer();
+      const workbook = XLSX.read(new Uint8Array(buffer), { type: 'array' });
+      const sheets = {};
+      for (const sheetName of workbook.SheetNames) {
+        sheets[sheetName] = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+      }
+      return { name, url, content: sheets, error: null };
+    }
+
+    if (ext === 'csv') {
+      const text = await response.text();
+      const workbook = XLSX.read(text, { type: 'string' });
+      const sheet = workbook.Sheets[workbook.SheetNames[0]];
+      return { name, url, content: XLSX.utils.sheet_to_json(sheet), error: null };
+    }
+
+    if (ext === 'json') {
+      const json = await response.json();
+      return { name, url, content: json, error: null };
+    }
+
+    if (ext === 'txt' || ext === 'md' || ext === 'log') {
+      const text = await response.text();
+      return { name, url, content: text, error: null };
+    }
+
+    if (ext === 'docx') {
+      const buffer = await response.arrayBuffer();
+      const result = await mammoth.extractRawText({ buffer });
+      return { name, url, content: result.value, error: null };
+    }
+
+    if (ext === 'pdf') {
+      const buffer = await response.arrayBuffer();
+      const nodeBuffer = Buffer.from(buffer);
+      const parser = new PDFParse({ data: nodeBuffer, verbosity: 0 });
+      const doc = await parser.load();
+      const numPages = doc.numPages;
+      const pages = [];
+      for (let i = 1; i <= numPages; i++) {
+        const page = await doc.getPage(i);
+        const content = await page.getTextContent();
+        const text = content.items.map((item) => item.str).join(' ');
+        pages.push(text);
+      }
+      const textContent = pages.join('\n').trim();
+
+      // If no text found, PDF is scanned — render to images and OCR
+      if (!textContent) {
+        const ocrPages = [];
+        const imgDoc = await pdfToImg(nodeBuffer, { scale: 2 });
+        for await (const pageImage of imgDoc) {
+          const { data: { text } } = await Tesseract.recognize(pageImage, 'eng');
+          ocrPages.push(text.trim());
+        }
+        await parser.destroy();
+        return { name, url, content: ocrPages.join('\n---\n'), type: 'pdf-ocr', error: null };
+      }
+
+      await parser.destroy();
+      return { name, url, content: textContent, error: null };
+    }
+
+    if (['png', 'jpg', 'jpeg', 'gif', 'webp', 'bmp'].includes(ext)) {
+      const buffer = await response.arrayBuffer();
+      const base64 = Buffer.from(buffer).toString('base64');
+      const mimeType = ext === 'jpg' ? 'image/jpeg' : `image/${ext}`;
+      return { name, url, content: `data:${mimeType};base64,${base64}`, type: 'image', error: null };
+    }
+
+    // Unsupported binary format - return metadata only
+    return { name, url, content: null, error: `Unsupported file type: .${ext}` };
+  } catch (err) {
+    return { name, url, content: null, error: err.message || 'Download failed' };
+  }
+}
+
 async function fetchWorkItem(workItemId) {
   const missingEnvVars = getMissingEnvVars();
   if (missingEnvVars.length > 0) {
@@ -87,13 +182,17 @@ async function fetchWorkItem(workItemId) {
   const fields = workItem.fields || {};
   const relations = workItem.relations || [];
 
-  // Parse attachments from relations
-  const attachments = relations
+  // Parse and download attachments from relations
+  const attachmentRefs = relations
     .filter((rel) => rel.rel === 'AttachedFile')
     .map((rel) => ({
       name: rel.attributes?.name || null,
       url: rel.url || null
     }));
+
+  const attachments = await Promise.all(
+    attachmentRefs.map((att) => downloadAttachment(att, headers))
+  );
 
   // Parse related work items (parent, child, related) from relations
   const relatedWorkItemRefs = relations
