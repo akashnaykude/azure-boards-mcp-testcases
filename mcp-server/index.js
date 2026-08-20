@@ -85,6 +85,51 @@ async function fetchWorkItem(workItemId) {
   }
 
   const fields = workItem.fields || {};
+  const relations = workItem.relations || [];
+
+  // Parse attachments from relations
+  const attachments = relations
+    .filter((rel) => rel.rel === 'AttachedFile')
+    .map((rel) => ({
+      name: rel.attributes?.name || null,
+      url: rel.url || null
+    }));
+
+  // Parse related work items (parent, child, related) from relations
+  const relatedWorkItemRefs = relations
+    .filter((rel) => rel.rel !== 'AttachedFile' && rel.rel !== 'ArtifactLink')
+    .map((rel) => {
+      const idMatch = rel.url?.match(/\/workItems\/(\d+)$/i);
+      return {
+        id: idMatch ? Number(idMatch[1]) : null,
+        linkType: rel.attributes?.name || rel.rel || null,
+        url: rel.url || null
+      };
+    })
+    .filter((ref) => ref.id !== null);
+
+  // Fetch titles for related work items in batch
+  let relatedWorkItems = [];
+  const relatedIds = relatedWorkItemRefs.map((ref) => ref.id);
+  if (relatedIds.length > 0) {
+    const batchUrl = `https://dev.azure.com/${encodeURIComponent(org)}/${encodedProject}/_apis/wit/workitems?ids=${relatedIds.join(',')}&fields=System.Title,System.WorkItemType,System.State&api-version=${encodeURIComponent(apiVersion)}`;
+    const batchResponse = await fetch(batchUrl, { headers });
+    const batchLookup = new Map();
+    if (batchResponse.ok) {
+      const batchData = await batchResponse.json();
+      for (const item of (batchData.value || [])) {
+        batchLookup.set(item.id, {
+          title: item.fields?.['System.Title'] || null,
+          workItemType: item.fields?.['System.WorkItemType'] || null,
+          state: item.fields?.['System.State'] || null
+        });
+      }
+    }
+    relatedWorkItems = relatedWorkItemRefs.map((ref) => ({
+      ...ref,
+      ...(batchLookup.get(ref.id) || {})
+    }));
+  }
 
   return {
     id: workItem.id,
@@ -98,7 +143,9 @@ async function fetchWorkItem(workItemId) {
       ? fields['System.Tags'].split(';').map((tag) => tag.trim()).filter(Boolean)
       : [],
     assignee: fields['System.AssignedTo']?.displayName || null,
-    comments
+    comments,
+    relatedWorkItems,
+    attachments
   };
 }
 
