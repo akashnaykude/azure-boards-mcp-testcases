@@ -27,7 +27,8 @@
     {
       "id": "azdoPat",
       "type": "promptString",
-      "description": "Azure DevOps PAT"
+      "description": "Azure DevOps PAT",
+      "password": true
     }
   ]
 }
