@@ -1,27 +1,14 @@
 # Copilot Instructions
 
-Use this repository as the starter for Azure Boards ticket-driven QA generation.
+Use this repository to fetch Azure Boards tickets through MCP and generate QA test cases.
 
 ## Workflow
-1. When a user provides a ticket ID, first fetch the Azure Boards work item through the MCP server.
-2. Read the title, description, and acceptance criteria.
-3. Generate test cases that cover:
-   - positive scenarios
-   - negative scenarios
-   - edge cases
-   - regression risk
-   - UI/UX checks if relevant
-   - accessibility checks if relevant
-4. Return the test cases in a clear table.
+1. Call `get_azure_board_work_item` with the ticket ID or full Azure Boards URL.
+2. Use the fetched fields (title, description, acceptance criteria, state, tags, work item type, assignee, comments) as the only source context.
+3. Generate QA coverage for positive, negative, edge, regression, and accessibility scenarios when relevant.
+4. Return test cases in a clear table.
 
-## Prompt style
-Always ask the model to:
-- stay within the scope of the ticket
-- identify affected functionality
-- include regression coverage even for cosmetic changes
-- mention assumptions when ticket details are incomplete
-
-## Expected output format
+## Output format
 - Test Case ID
 - Scenario
 - Preconditions
@@ -29,3 +16,5 @@ Always ask the model to:
 - Expected Result
 - Priority
 - Type
+
+If fields are missing from the ticket, state assumptions explicitly.
