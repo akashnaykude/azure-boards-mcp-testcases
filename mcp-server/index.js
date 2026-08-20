@@ -43,7 +43,9 @@ function azureGet(path) {
             reject(new Error('Failed to parse Azure DevOps response as JSON'));
           }
         } else {
-          reject(new Error(`Azure DevOps API returned ${res.statusCode}: ${data}`));
+          const err = new Error(`Azure DevOps API returned ${res.statusCode}: ${data}`);
+          err.statusCode = res.statusCode;
+          reject(err);
         }
       });
     }).on('error', reject);
@@ -104,7 +106,7 @@ async function handleWorkItem(reqUrl, res) {
     const { body } = await azureGet(`wit/workitems/${id}`);
     sendJson(res, 200, extractWorkItem(body));
   } catch (err) {
-    const status = err.message.includes('404') ? 404 : 502;
+    const status = err.statusCode === 404 ? 404 : 502;
     sendJson(res, status, { error: err.message });
   }
 }
@@ -115,18 +117,27 @@ async function handleWorkItem(reqUrl, res) {
 const server = http.createServer(async (req, res) => {
   const { pathname } = new URL(req.url, `http://localhost:${PORT}`);
 
-  if (pathname === '/health') {
-    await handleHealth(res);
-  } else if (pathname === '/work-item') {
-    await handleWorkItem(req.url, res);
-  } else {
-    sendJson(res, 404, {
-      error: 'Not found',
-      availableRoutes: [
-        'GET /health',
-        'GET /work-item?id=<workItemId>',
-      ],
-    });
+  if (req.method !== 'GET') {
+    sendJson(res, 405, { error: 'Method Not Allowed. Only GET requests are supported.' });
+    return;
+  }
+
+  try {
+    if (pathname === '/health') {
+      await handleHealth(res);
+    } else if (pathname === '/work-item') {
+      await handleWorkItem(req.url, res);
+    } else {
+      sendJson(res, 404, {
+        error: 'Not found',
+        availableRoutes: [
+          'GET /health',
+          'GET /work-item?id=<workItemId>',
+        ],
+      });
+    }
+  } catch (err) {
+    sendJson(res, 500, { error: 'Internal server error', detail: err.message });
   }
 });
 
