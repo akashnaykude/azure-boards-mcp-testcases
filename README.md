@@ -4,10 +4,10 @@ This repository provides a minimal MCP server so GitHub Copilot can read Azure B
 
 ## What is implemented
 - MCP server at `/mcp-server/index.js`
-- Tool: `get_azure_board_work_item`
+- Tool: `get_azure_boards_work_item`
 - Ticket parsing support for:
   - Numeric IDs (example: `209974`)
-  - Full Azure Boards URLs (example: `https://dev.azure.com/worldpanelbynumerator/KT-DataCollection/_workitems/edit/209974`)
+  - Full Azure Boards URLs (example: `https://dev.azure.com/<your-org>/<your-project>/_workitems/edit/209974`)
 - Azure DevOps REST API fetch via environment variables
 - Returned fields for QA generation:
   - title
@@ -60,14 +60,14 @@ Configure your Copilot MCP settings to start this server from the repository roo
 ## Copilot workflow
 1. Connect Copilot to the `azure-boards` MCP server.
 2. In Copilot Chat, paste an Azure Boards URL or ID.
-3. Copilot calls `get_azure_board_work_item` to fetch the work item.
+3. Copilot calls `get_azure_boards_work_item` to fetch the work item.
 4. Copilot generates QA test cases from fetched fields.
 
 Example prompt:
 
 ```text
 Read this Azure Boards ticket and generate QA test cases from title, description, acceptance criteria, comments, state, tags, work item type, and assignee:
-https://dev.azure.com/worldpanelbynumerator/KT-DataCollection/_workitems/edit/209974
+https://dev.azure.com/<your-org>/<your-project>/_workitems/edit/209974
 ```
 
 ## Validation and error handling

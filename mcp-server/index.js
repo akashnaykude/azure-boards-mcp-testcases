@@ -4,6 +4,7 @@ import { z } from 'zod';
 
 const REQUIRED_ENV_VARS = ['AZDO_ORG', 'AZDO_PROJECT', 'AZDO_PAT'];
 const DEFAULT_API_VERSION = '7.1-preview.3';
+const DEFAULT_COMMENTS_API_VERSION = '7.1-preview.4';
 
 function getMissingEnvVars() {
   return REQUIRED_ENV_VARS.filter((name) => !process.env[name]);
@@ -27,7 +28,7 @@ function parseWorkItemId(ticket) {
     throw new Error('Invalid Azure Boards URL. Provide a numeric ID or a valid URL.');
   }
 
-  const match = parsedUrl.pathname.match(/\/workitems\/edit\/(\d+)(?:\/|$)/i);
+  const match = parsedUrl.pathname.match(/\/_workitems\/edit\/(\d+)(?:\/|$)/i);
   if (!match) {
     throw new Error('Invalid Azure Boards URL. Expected path like /_workitems/edit/<id>.');
   }
@@ -60,14 +61,17 @@ async function fetchWorkItem(workItemId) {
   const workItemResponse = await fetch(workItemUrl, { headers });
 
   if (!workItemResponse.ok) {
-    const responseText = await workItemResponse.text();
-    throw new Error(`Azure DevOps work item API failed (${workItemResponse.status} ${workItemResponse.statusText}): ${responseText}`);
+    throw new Error(
+      `Azure DevOps work item API failed (${workItemResponse.status} ${workItemResponse.statusText}). ` +
+      'Check AZDO_ORG, AZDO_PROJECT, AZDO_PAT permissions, and the work item ID.'
+    );
   }
 
   const workItem = await workItemResponse.json();
 
   let comments = [];
-  const commentsUrl = `https://dev.azure.com/${encodeURIComponent(org)}/${encodedProject}/_apis/wit/workItems/${workItemId}/comments?api-version=7.1-preview.4`;
+  const commentsApiVersion = process.env.AZDO_COMMENTS_API_VERSION || DEFAULT_COMMENTS_API_VERSION;
+  const commentsUrl = `https://dev.azure.com/${encodeURIComponent(org)}/${encodedProject}/_apis/wit/workItems/${workItemId}/comments?api-version=${encodeURIComponent(commentsApiVersion)}`;
   const commentsResponse = await fetch(commentsUrl, { headers });
 
   if (commentsResponse.ok) {
@@ -104,7 +108,7 @@ const server = new McpServer({
 });
 
 server.registerTool(
-  'get_azure_board_work_item',
+  'get_azure_boards_work_item',
   {
     title: 'Get Azure Boards work item',
     description: 'Fetches Azure Boards work item details from a work item ID or URL for QA test case generation.',
