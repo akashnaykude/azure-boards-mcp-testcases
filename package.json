@@ -5,8 +5,7 @@
   "description": "Starter setup for Azure Boards ticket-driven test case generation with Copilot and MCP",
   "type": "module",
   "scripts": {
-    "start": "node mcp-server/index.js",
-    "dev": "node mcp-server/index.js"
+    "start": "node mcp-server/index.js"
   },
   "engines": {
     "node": ">=20"
