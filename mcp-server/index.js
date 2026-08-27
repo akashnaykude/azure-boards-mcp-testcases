@@ -3,7 +3,7 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { z } from 'zod';
 import * as XLSX from 'xlsx';
 import mammoth from 'mammoth';
-import { PDFParse } from 'pdf-parse';
+import pdfParse from 'pdf-parse';
 import Tesseract from 'tesseract.js';
 import { pdf as pdfToImg } from 'pdf-to-img';
 
@@ -98,17 +98,8 @@ async function downloadAttachment(attachment, headers) {
     if (ext === 'pdf') {
       const buffer = await response.arrayBuffer();
       const nodeBuffer = Buffer.from(buffer);
-      const parser = new PDFParse({ data: nodeBuffer, verbosity: 0 });
-      const doc = await parser.load();
-      const numPages = doc.numPages;
-      const pages = [];
-      for (let i = 1; i <= numPages; i++) {
-        const page = await doc.getPage(i);
-        const content = await page.getTextContent();
-        const text = content.items.map((item) => item.str).join(' ');
-        pages.push(text);
-      }
-      const textContent = pages.join('\n').trim();
+      const parsed = await pdfParse(nodeBuffer);
+      const textContent = (parsed.text || '').trim();
 
       // If no text found, PDF is scanned — render to images and OCR
       if (!textContent) {
@@ -118,11 +109,9 @@ async function downloadAttachment(attachment, headers) {
           const { data: { text } } = await Tesseract.recognize(pageImage, 'eng');
           ocrPages.push(text.trim());
         }
-        await parser.destroy();
         return { name, url, content: ocrPages.join('\n---\n'), type: 'pdf-ocr', error: null };
       }
 
-      await parser.destroy();
       return { name, url, content: textContent, error: null };
     }
 
@@ -184,9 +173,9 @@ async function fetchWorkItem(workItemId) {
 
   // Extract inline images from description and acceptance criteria HTML
   const inlineImageUrls = [];
-  const imgRegex = /<img[^>]+src="([^"]+)"[^>]*>/gi;
   for (const htmlField of [fields['System.Description'], fields['Microsoft.VSTS.Common.AcceptanceCriteria']]) {
     if (!htmlField) continue;
+    const imgRegex = /<img[^>]+src="([^"]+)"[^>]*>/gi;
     let match;
     while ((match = imgRegex.exec(htmlField)) !== null) {
       inlineImageUrls.push(match[1]);
@@ -194,10 +183,11 @@ async function fetchWorkItem(workItemId) {
   }
 
   const inlineImages = await Promise.all(
-    inlineImageUrls.map((imgUrl) => downloadAttachment(
-      { name: new URL(imgUrl).searchParams.get('fileName') || 'inline-image.png', url: imgUrl },
-      headers
-    ))
+    inlineImageUrls.map((imgUrl) => {
+      let fileName = 'inline-image.png';
+      try { fileName = new URL(imgUrl).searchParams.get('fileName') || fileName; } catch {}
+      return downloadAttachment({ name: fileName, url: imgUrl }, headers);
+    })
   );
 
   // Parse and download attachments from relations

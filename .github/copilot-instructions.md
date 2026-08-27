@@ -14,9 +14,14 @@ Required workflow:
    - All attachments and inline images found — for each, list the file name, file type, a brief summary of its content, and any UI elements/flows/labels visible in images that are relevant for testing.
    - Clearly state which specific data points from each source were used as the basis for test case generation.
    - If any field or attachment was empty/missing, explicitly mention it.
-4. Generate QA test cases from the fetched ticket context — use related child work items and comments for additional scenario coverage.
-5. Include positive, negative, edge, regression, and accessibility coverage when relevant.
-6. Return results as a clear table.
-7. Using images available in the work item, description, and comments, generate visual test cases that validate UI elements, screen flows, and user interactions. Include image references in the test case table.
+5. Generate QA test cases from the fetched ticket context — use related child work items and comments for additional scenario coverage.
+6. Include positive, negative, edge, regression, and accessibility coverage when relevant.
+7. Return results as a clear table.
+8. Using images available in the work item, description, and comments, generate visual test cases that validate UI elements, screen flows, and user interactions. Include image references in the test case table.
+9. **After the test case table, provide an "Image-Based Test Case Mapping" section** that clearly lists which test cases were derived from each image/screenshot. For every image analyzed, list:
+   - The image file name
+   - A brief description of what the image shows
+   - The specific test case numbers (e.g. #1, #5, #12) that were created based on that image
+   - What UI elements or flows from the image inspired each test case
 
 If any ticket field is missing, mention the assumption and continue with best-effort test cases.
