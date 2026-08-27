@@ -182,6 +182,24 @@ async function fetchWorkItem(workItemId) {
   const fields = workItem.fields || {};
   const relations = workItem.relations || [];
 
+  // Extract inline images from description and acceptance criteria HTML
+  const inlineImageUrls = [];
+  const imgRegex = /<img[^>]+src="([^"]+)"[^>]*>/gi;
+  for (const htmlField of [fields['System.Description'], fields['Microsoft.VSTS.Common.AcceptanceCriteria']]) {
+    if (!htmlField) continue;
+    let match;
+    while ((match = imgRegex.exec(htmlField)) !== null) {
+      inlineImageUrls.push(match[1]);
+    }
+  }
+
+  const inlineImages = await Promise.all(
+    inlineImageUrls.map((imgUrl) => downloadAttachment(
+      { name: new URL(imgUrl).searchParams.get('fileName') || 'inline-image.png', url: imgUrl },
+      headers
+    ))
+  );
+
   // Parse and download attachments from relations
   const attachmentRefs = relations
     .filter((rel) => rel.rel === 'AttachedFile')
@@ -190,9 +208,10 @@ async function fetchWorkItem(workItemId) {
       url: rel.url || null
     }));
 
-  const attachments = await Promise.all(
-    attachmentRefs.map((att) => downloadAttachment(att, headers))
-  );
+  const attachments = [
+    ...inlineImages,
+    ...(await Promise.all(attachmentRefs.map((att) => downloadAttachment(att, headers))))
+  ];
 
   // Parse related work items (parent, child, related) from relations
   const relatedWorkItemRefs = relations
