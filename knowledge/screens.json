@@ -1,0 +1,19 @@
+{
+  "_description": "UI screens, navigation flows, and page layouts discovered from tickets",
+  "screens": [
+    {
+      "id": "registration-api",
+      "name": "Registration API Endpoint",
+      "description": "POST /profiles — creates a new user profile",
+      "elements": [
+        "email",
+        "password",
+        "postcode",
+        "facebookId",
+        "appleId",
+        "isApplePrivateEmail"
+      ],
+      "lastUpdated": "2026-09-01T11:56:39.830Z"
+    }
+  ]
+}

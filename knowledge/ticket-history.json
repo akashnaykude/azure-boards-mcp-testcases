@@ -1,0 +1,22 @@
+{
+  "_description": "Log of all processed Azure Boards tickets with summaries and extracted context",
+  "tickets": [
+    {
+      "id": "211576",
+      "ticketId": 211576,
+      "title": "Send Shoppix.me email at 1pm the day after registration",
+      "url": "https://dev.azure.com/worldpanelbynumerator/KT-DataCollection/_workitems/edit/211576",
+      "type": "Product Backlog Item",
+      "summary": "Auto-assign Shoppix.me email during registration. Send scheduled notification at 1pm next day. No 50-token bonus for auto-assigned emails. PR #1390 implements changes in CreateProfileCommandHandler with ActiveSubmission email assignment, service bus messaging, and DST-aware scheduling.",
+      "testCaseCount": 28,
+      "coveredAreas": [
+        "profile-registration",
+        "active-submission-email",
+        "service-bus-messaging",
+        "shoppix-me-email-notification"
+      ],
+      "processedOn": "2026-09-01T11:56:39.831Z",
+      "lastUpdated": "2026-09-01T11:56:39.831Z"
+    }
+  ]
+}

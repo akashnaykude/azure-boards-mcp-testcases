@@ -1,0 +1,47 @@
+{
+  "_description": "Validation rules, business logic, and edge cases discovered from tickets",
+  "rules": [
+    {
+      "id": "auto-assign-shoppix-email",
+      "rule": "During registration, auto-assign an unused Shoppix.me email from ActiveSubmissionEmailSelect pool. Skip emails claimed by concurrent registrations.",
+      "feature": "active-submission-email",
+      "lastUpdated": "2026-09-01T11:56:39.831Z"
+    },
+    {
+      "id": "no-50-tokens-for-auto-email",
+      "rule": "Do NOT add 50 tokens for auto-assigned Shoppix.me email addresses.",
+      "feature": "active-submission-email",
+      "lastUpdated": "2026-09-01T11:56:39.831Z"
+    },
+    {
+      "id": "send-notification-1pm-next-day",
+      "rule": "Schedule ActiveSubmission notification message for 1pm the next day in the configured timezone, accounting for DST.",
+      "feature": "shoppix-me-email-notification",
+      "lastUpdated": "2026-09-01T11:56:39.831Z"
+    },
+    {
+      "id": "facebook-skip-confirmation",
+      "rule": "Facebook registrations set IsFirstEmailConfirmed=true and skip confirmation email.",
+      "feature": "profile-registration",
+      "lastUpdated": "2026-09-01T11:56:39.831Z"
+    },
+    {
+      "id": "apple-skip-confirmation",
+      "rule": "Apple registrations set IsFirstEmailConfirmed=true, AppleId, IsApplePrivateEmail, and skip confirmation email.",
+      "feature": "profile-registration",
+      "lastUpdated": "2026-09-01T11:56:39.831Z"
+    },
+    {
+      "id": "email-assignment-no-fail-registration",
+      "rule": "If ActiveSubmission email assignment throws an exception, registration still succeeds. Exception is logged.",
+      "feature": "active-submission-email",
+      "lastUpdated": "2026-09-01T11:56:39.831Z"
+    },
+    {
+      "id": "service-bus-only-if-persisted",
+      "rule": "createuserprofile service bus message is only sent if AppUser was successfully persisted (DoesAppUserIdExist check).",
+      "feature": "service-bus-messaging",
+      "lastUpdated": "2026-09-01T11:56:39.831Z"
+    }
+  ]
+}

@@ -8,9 +8,52 @@ const require = createRequire(import.meta.url);
 const pdfParse = require('pdf-parse');
 import Tesseract from 'tesseract.js';
 import { pdf as pdfToImg } from 'pdf-to-img';
-import { writeFileSync, mkdirSync, existsSync } from 'node:fs';
-import { join, resolve } from 'node:path';
+import { writeFileSync, readFileSync, mkdirSync, existsSync } from 'node:fs';
+import { join, resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
+
+// ── Knowledge Base ──────────────────────────────────────────────────────────
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const KNOWLEDGE_DIR = resolve(__dirname, '..', 'knowledge');
+
+const KNOWLEDGE_FILES = {
+  features: join(KNOWLEDGE_DIR, 'features.json'),
+  screens: join(KNOWLEDGE_DIR, 'screens.json'),
+  businessRules: join(KNOWLEDGE_DIR, 'business-rules.json'),
+  ticketHistory: join(KNOWLEDGE_DIR, 'ticket-history.json'),
+  terminology: join(KNOWLEDGE_DIR, 'terminology.json'),
+  testCoverage: join(KNOWLEDGE_DIR, 'test-coverage.json')
+};
+
+function readKnowledgeFile(filePath) {
+  try {
+    if (!existsSync(filePath)) return null;
+    return JSON.parse(readFileSync(filePath, 'utf-8'));
+  } catch {
+    return null;
+  }
+}
+
+function writeKnowledgeFile(filePath, data) {
+  if (!existsSync(KNOWLEDGE_DIR)) {
+    mkdirSync(KNOWLEDGE_DIR, { recursive: true });
+  }
+  writeFileSync(filePath, JSON.stringify(data, null, 2) + '\n', 'utf-8');
+}
+
+function mergeArrayById(existing, incoming, idField = 'id') {
+  const map = new Map(existing.map((item) => [item[idField], item]));
+  for (const item of incoming) {
+    const key = item[idField];
+    if (map.has(key)) {
+      map.set(key, { ...map.get(key), ...item, lastUpdated: new Date().toISOString() });
+    } else {
+      map.set(key, { ...item, addedOn: new Date().toISOString() });
+    }
+  }
+  return [...map.values()];
+}
 
 const REQUIRED_ENV_VARS = ['AZDO_ORG', 'AZDO_PROJECT', 'AZDO_PAT'];
 const DEFAULT_API_VERSION = '7.1-preview.3';
@@ -134,6 +177,136 @@ async function downloadAttachment(attachment, headers) {
   }
 }
 
+// ── Pull Request Code Extraction ────────────────────────────────────────────
+
+function parsePrArtifactUrl(vstfsUrl) {
+  // vstfs:///Git/PullRequestId/{projectId}%2F{repoId}%2F{prId}
+  const match = vstfsUrl.match(/vstfs:\/\/\/Git\/PullRequestId\/([^%]+)%2[Ff]([^%]+)%2[Ff](\d+)/i);
+  if (!match) return null;
+  return { projectId: match[1], repoId: match[2], prId: Number(match[3]) };
+}
+
+const MAX_FILE_SIZE_BYTES = 100_000; // skip files larger than 100KB
+const RELEVANT_EXTENSIONS = new Set([
+  'cs', 'ts', 'js', 'tsx', 'jsx', 'py', 'java', 'kt', 'swift', 'dart',
+  'json', 'xml', 'yaml', 'yml', 'feature', 'md', 'sql', 'html', 'css', 'scss'
+]);
+
+function isRelevantFile(filePath) {
+  if (!filePath) return false;
+  const ext = filePath.split('.').pop()?.toLowerCase();
+  return RELEVANT_EXTENSIONS.has(ext);
+}
+
+async function fetchFileContent(org, repoId, commitId, filePath, headers) {
+  try {
+    const encodedPath = encodeURIComponent(filePath);
+    const url = `https://dev.azure.com/${encodeURIComponent(org)}/_apis/git/repositories/${repoId}/items?path=${encodedPath}&versionDescriptor.version=${commitId}&versionDescriptor.versionType=commit&$format=text&api-version=7.1`;
+    const resp = await fetch(url, { headers });
+    if (!resp.ok) return null;
+    const contentLength = resp.headers.get('content-length');
+    if (contentLength && Number(contentLength) > MAX_FILE_SIZE_BYTES) return '(file too large, skipped)';
+    const text = await resp.text();
+    if (text.length > MAX_FILE_SIZE_BYTES) return text.substring(0, MAX_FILE_SIZE_BYTES) + '\n...(truncated)';
+    return text;
+  } catch {
+    return null;
+  }
+}
+
+async function fetchPullRequestContext(org, project, relations, headers) {
+  const prRefs = relations
+    .filter((rel) => rel.rel === 'ArtifactLink' && rel.attributes?.name === 'Pull Request')
+    .map((rel) => parsePrArtifactUrl(rel.url))
+    .filter(Boolean);
+
+  if (prRefs.length === 0) return [];
+
+  const pullRequests = [];
+
+  for (const { repoId, prId } of prRefs) {
+    try {
+      // Fetch PR metadata
+      const prUrl = `https://dev.azure.com/${encodeURIComponent(org)}/${encodeURIComponent(project)}/_apis/git/repositories/${repoId}/pullrequests/${prId}?api-version=7.1`;
+      const prResp = await fetch(prUrl, { headers });
+      if (!prResp.ok) continue;
+      const pr = await prResp.json();
+
+      // Fetch PR commits to find the latest
+      const commitsUrl = `https://dev.azure.com/${encodeURIComponent(org)}/${encodeURIComponent(project)}/_apis/git/repositories/${repoId}/pullrequests/${prId}/commits?api-version=7.1`;
+      const commitsResp = await fetch(commitsUrl, { headers });
+      let latestCommitId = null;
+      if (commitsResp.ok) {
+        const commitsData = await commitsResp.json();
+        latestCommitId = commitsData.value?.[0]?.commitId || null;
+      }
+
+      // Fetch changed files from the last iteration
+      const iterUrl = `https://dev.azure.com/${encodeURIComponent(org)}/${encodeURIComponent(project)}/_apis/git/repositories/${repoId}/pullrequests/${prId}/iterations?api-version=7.1`;
+      const iterResp = await fetch(iterUrl, { headers });
+      let changedFiles = [];
+      if (iterResp.ok) {
+        const iterData = await iterResp.json();
+        const lastIterId = iterData.value?.[iterData.value.length - 1]?.id;
+        if (lastIterId) {
+          const changesUrl = `https://dev.azure.com/${encodeURIComponent(org)}/${encodeURIComponent(project)}/_apis/git/repositories/${repoId}/pullrequests/${prId}/iterations/${lastIterId}/changes?api-version=7.1`;
+          const changesResp = await fetch(changesUrl, { headers });
+          if (changesResp.ok) {
+            const changesData = await changesResp.json();
+            changedFiles = (changesData.changeEntries || [])
+              .filter((e) => e.item?.path)
+              .map((e) => ({ path: e.item.path, changeType: e.changeType }));
+          }
+        }
+      }
+
+      // Fetch code content for relevant changed files
+      const fileContents = [];
+      if (latestCommitId) {
+        const relevantFiles = changedFiles.filter((f) => f.changeType !== 'delete' && isRelevantFile(f.path));
+        const contentPromises = relevantFiles.map(async (f) => {
+          const content = await fetchFileContent(org, repoId, latestCommitId, f.path, headers);
+          return { path: f.path, changeType: f.changeType, content };
+        });
+        fileContents.push(...(await Promise.all(contentPromises)).filter((f) => f.content));
+      }
+
+      // Fetch PR review comments
+      let reviewComments = [];
+      const threadsUrl = `https://dev.azure.com/${encodeURIComponent(org)}/${encodeURIComponent(project)}/_apis/git/repositories/${repoId}/pullrequests/${prId}/threads?api-version=7.1`;
+      const threadsResp = await fetch(threadsUrl, { headers });
+      if (threadsResp.ok) {
+        const threadsData = await threadsResp.json();
+        reviewComments = (threadsData.value || [])
+          .filter((t) => t.threadContext?.filePath && t.comments?.length > 0)
+          .map((t) => ({
+            filePath: t.threadContext.filePath,
+            status: t.status || null,
+            comments: t.comments.map((c) => c.content).filter(Boolean)
+          }));
+      }
+
+      pullRequests.push({
+        prId,
+        title: pr.title || null,
+        description: pr.description || null,
+        status: pr.status || null,
+        sourceBranch: pr.sourceRefName?.replace('refs/heads/', '') || null,
+        targetBranch: pr.targetRefName?.replace('refs/heads/', '') || null,
+        repository: pr.repository?.name || null,
+        createdBy: pr.createdBy?.displayName || null,
+        changedFiles,
+        fileContents,
+        reviewComments
+      });
+    } catch {
+      // Skip PRs that fail to fetch
+    }
+  }
+
+  return pullRequests;
+}
+
 async function fetchWorkItem(workItemId) {
   const missingEnvVars = getMissingEnvVars();
   if (missingEnvVars.length > 0) {
@@ -244,6 +417,9 @@ async function fetchWorkItem(workItemId) {
     }));
   }
 
+  // Fetch PR context (code changes, descriptions, review comments)
+  const pullRequests = await fetchPullRequestContext(org, project, relations, headers);
+
   return {
     id: workItem.id,
     url: workItem.url,
@@ -258,7 +434,8 @@ async function fetchWorkItem(workItemId) {
     assignee: fields['System.AssignedTo']?.displayName || null,
     comments,
     relatedWorkItems,
-    attachments
+    attachments,
+    pullRequests
   };
 }
 
@@ -396,6 +573,285 @@ server.registerTool(
           type: 'text',
           text: error instanceof Error ? error.message : 'Failed to export test cases.'
         }]
+      };
+    }
+  }
+);
+
+// ── Knowledge Base Tools ────────────────────────────────────────────────────
+
+server.registerTool(
+  'get_app_context',
+  {
+    title: 'Get accumulated application context',
+    description:
+      'Returns all accumulated knowledge about the application — features, screens, business rules, terminology, past tickets, and test coverage. Call this BEFORE generating test cases so you can produce richer, more contextual results.',
+    inputSchema: {
+      sections: z
+        .array(z.enum(['features', 'screens', 'businessRules', 'terminology', 'ticketHistory', 'testCoverage']))
+        .optional()
+        .describe('Which knowledge sections to return. Omit to get everything.')
+    }
+  },
+  async ({ sections }) => {
+    try {
+      const requested = sections && sections.length > 0 ? sections : Object.keys(KNOWLEDGE_FILES);
+      const context = {};
+      let totalEntries = 0;
+
+      for (const key of requested) {
+        const filePath = KNOWLEDGE_FILES[key];
+        if (!filePath) continue;
+        const data = readKnowledgeFile(filePath);
+        if (!data) continue;
+        const listKey = Object.keys(data).find((k) => k !== '_description');
+        const entries = listKey ? data[listKey] : [];
+        context[key] = entries;
+        totalEntries += entries.length;
+      }
+
+      if (totalEntries === 0) {
+        return {
+          content: [{
+            type: 'text',
+            text: 'Knowledge base is empty. No prior ticket context available yet. This will grow as tickets are processed.'
+          }]
+        };
+      }
+
+      const summary = Object.entries(context)
+        .map(([k, v]) => `${k}: ${v.length} entries`)
+        .join(', ');
+
+      return {
+        content: [{
+          type: 'text',
+          text: JSON.stringify({ summary, ...context }, null, 2)
+        }],
+        structuredContent: context
+      };
+    } catch (error) {
+      return {
+        isError: true,
+        content: [{ type: 'text', text: error instanceof Error ? error.message : 'Failed to read app context.' }]
+      };
+    }
+  }
+);
+
+server.registerTool(
+  'save_ticket_context',
+  {
+    title: 'Save learned context from a ticket',
+    description:
+      'After generating test cases from a ticket, call this to persist what was learned — features, screens, business rules, terminology, and test coverage. This makes future test generation smarter.',
+    inputSchema: {
+      ticketId: z.number().describe('The Azure Boards work item ID'),
+      ticketTitle: z.string().describe('The work item title'),
+      ticketUrl: z.string().optional().default('').describe('Full URL to the work item'),
+      ticketType: z.string().optional().default('').describe('Work item type (Bug, User Story, Task, etc.)'),
+      summary: z.string().describe('Brief summary of what the ticket covers'),
+      testCaseCount: z.number().optional().default(0).describe('Number of test cases generated'),
+      features: z
+        .array(z.object({
+          id: z.string().describe('Unique feature slug, e.g. "token-balance-display"'),
+          name: z.string().describe('Human-readable feature name'),
+          description: z.string().optional().default(''),
+          module: z.string().optional().default('').describe('App module or area this belongs to')
+        }))
+        .optional()
+        .default([])
+        .describe('Features/modules discovered in this ticket'),
+      screens: z
+        .array(z.object({
+          id: z.string().describe('Unique screen slug, e.g. "home-screen"'),
+          name: z.string().describe('Human-readable screen name'),
+          description: z.string().optional().default(''),
+          elements: z.array(z.string()).optional().default([]).describe('Key UI elements on this screen')
+        }))
+        .optional()
+        .default([])
+        .describe('UI screens/pages discovered in this ticket'),
+      businessRules: z
+        .array(z.object({
+          id: z.string().describe('Unique rule slug'),
+          rule: z.string().describe('The business rule or validation'),
+          feature: z.string().optional().default('').describe('Related feature slug')
+        }))
+        .optional()
+        .default([])
+        .describe('Business rules or validations discovered'),
+      terminology: z
+        .array(z.object({
+          id: z.string().describe('The term itself as a slug'),
+          term: z.string().describe('The term or phrase'),
+          definition: z.string().describe('What it means in this application context')
+        }))
+        .optional()
+        .default([])
+        .describe('Domain-specific terms discovered'),
+      coveredAreas: z
+        .array(z.string())
+        .optional()
+        .default([])
+        .describe('Feature slugs that now have test coverage from this ticket')
+    }
+  },
+  async ({ ticketId, ticketTitle, ticketUrl, ticketType, summary, testCaseCount, features, screens, businessRules, terminology, coveredAreas }) => {
+    try {
+      // 1. Save ticket to history
+      const historyData = readKnowledgeFile(KNOWLEDGE_FILES.ticketHistory) || { tickets: [] };
+      const ticketEntry = {
+        id: String(ticketId),
+        ticketId,
+        title: ticketTitle,
+        url: ticketUrl,
+        type: ticketType,
+        summary,
+        testCaseCount,
+        coveredAreas,
+        processedOn: new Date().toISOString()
+      };
+      historyData.tickets = mergeArrayById(historyData.tickets, [ticketEntry]);
+      writeKnowledgeFile(KNOWLEDGE_FILES.ticketHistory, historyData);
+
+      // 2. Merge features
+      if (features.length > 0) {
+        const featData = readKnowledgeFile(KNOWLEDGE_FILES.features) || { features: [] };
+        featData.features = mergeArrayById(featData.features, features);
+        writeKnowledgeFile(KNOWLEDGE_FILES.features, featData);
+      }
+
+      // 3. Merge screens
+      if (screens.length > 0) {
+        const scrData = readKnowledgeFile(KNOWLEDGE_FILES.screens) || { screens: [] };
+        scrData.screens = mergeArrayById(scrData.screens, screens);
+        writeKnowledgeFile(KNOWLEDGE_FILES.screens, scrData);
+      }
+
+      // 4. Merge business rules
+      if (businessRules.length > 0) {
+        const rulesData = readKnowledgeFile(KNOWLEDGE_FILES.businessRules) || { rules: [] };
+        rulesData.rules = mergeArrayById(rulesData.rules, businessRules);
+        writeKnowledgeFile(KNOWLEDGE_FILES.businessRules, rulesData);
+      }
+
+      // 5. Merge terminology
+      if (terminology.length > 0) {
+        const termData = readKnowledgeFile(KNOWLEDGE_FILES.terminology) || { terms: [] };
+        termData.terms = mergeArrayById(termData.terms, terminology);
+        writeKnowledgeFile(KNOWLEDGE_FILES.terminology, termData);
+      }
+
+      // 6. Update test coverage
+      if (coveredAreas.length > 0) {
+        const covData = readKnowledgeFile(KNOWLEDGE_FILES.testCoverage) || { coverage: [] };
+        for (const featureSlug of coveredAreas) {
+          const existing = covData.coverage.find((c) => c.id === featureSlug);
+          if (existing) {
+            existing.ticketIds = [...new Set([...(existing.ticketIds || []), ticketId])];
+            existing.lastTestedOn = new Date().toISOString();
+            existing.testCount = (existing.testCount || 0) + testCaseCount;
+          } else {
+            covData.coverage.push({
+              id: featureSlug,
+              ticketIds: [ticketId],
+              lastTestedOn: new Date().toISOString(),
+              testCount: testCaseCount
+            });
+          }
+        }
+        writeKnowledgeFile(KNOWLEDGE_FILES.testCoverage, covData);
+      }
+
+      const saved = [
+        features.length > 0 && `${features.length} features`,
+        screens.length > 0 && `${screens.length} screens`,
+        businessRules.length > 0 && `${businessRules.length} business rules`,
+        terminology.length > 0 && `${terminology.length} terms`,
+        coveredAreas.length > 0 && `${coveredAreas.length} coverage areas`
+      ].filter(Boolean);
+
+      return {
+        content: [{
+          type: 'text',
+          text: `Context saved for ticket #${ticketId} "${ticketTitle}".\nStored: ${saved.length > 0 ? saved.join(', ') : 'ticket history only'}.`
+        }]
+      };
+    } catch (error) {
+      return {
+        isError: true,
+        content: [{ type: 'text', text: error instanceof Error ? error.message : 'Failed to save ticket context.' }]
+      };
+    }
+  }
+);
+
+server.registerTool(
+  'search_past_tickets',
+  {
+    title: 'Search past processed tickets',
+    description:
+      'Search previously processed Azure Boards tickets by keyword, feature, or ticket ID. Useful for finding related past work, avoiding duplicate test cases, and suggesting regression tests.',
+    inputSchema: {
+      query: z.string().describe('Search keyword — matches against ticket titles, summaries, features, and covered areas'),
+      ticketId: z.number().optional().describe('Exact ticket ID to look up')
+    }
+  },
+  async ({ query, ticketId }) => {
+    try {
+      const historyData = readKnowledgeFile(KNOWLEDGE_FILES.ticketHistory) || { tickets: [] };
+      const tickets = historyData.tickets || [];
+
+      if (tickets.length === 0) {
+        return {
+          content: [{ type: 'text', text: 'No tickets have been processed yet. The knowledge base is empty.' }]
+        };
+      }
+
+      if (ticketId) {
+        const exact = tickets.find((t) => t.ticketId === ticketId);
+        if (exact) {
+          return { content: [{ type: 'text', text: JSON.stringify(exact, null, 2) }] };
+        }
+        return { content: [{ type: 'text', text: `No record found for ticket #${ticketId}.` }] };
+      }
+
+      const lowerQuery = (query || '').toLowerCase();
+      const matches = tickets.filter((t) => {
+        const haystack = [
+          t.title,
+          t.summary,
+          ...(t.coveredAreas || []),
+          t.type,
+          String(t.ticketId)
+        ].join(' ').toLowerCase();
+        return haystack.includes(lowerQuery);
+      });
+
+      if (matches.length === 0) {
+        return { content: [{ type: 'text', text: `No past tickets match "${query}".` }] };
+      }
+
+      const results = matches.map((t) => ({
+        ticketId: t.ticketId,
+        title: t.title,
+        summary: t.summary,
+        testCaseCount: t.testCaseCount,
+        processedOn: t.processedOn,
+        coveredAreas: t.coveredAreas
+      }));
+
+      return {
+        content: [{
+          type: 'text',
+          text: `Found ${results.length} matching ticket(s):\n${JSON.stringify(results, null, 2)}`
+        }]
+      };
+    } catch (error) {
+      return {
+        isError: true,
+        content: [{ type: 'text', text: error instanceof Error ? error.message : 'Failed to search tickets.' }]
       };
     }
   }

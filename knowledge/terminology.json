@@ -1,0 +1,47 @@
+{
+  "_description": "Application-specific terms, field names, statuses, and domain vocabulary",
+  "terms": [
+    {
+      "id": "active-submission-email",
+      "term": "Active Submission Email",
+      "definition": "A Shoppix.me email address auto-assigned to users during registration from a pool in the ActiveSubmissionEmailSelect table.",
+      "lastUpdated": "2026-09-01T11:56:39.831Z"
+    },
+    {
+      "id": "activesubmissionemailselect",
+      "term": "ActiveSubmissionEmailSelect",
+      "definition": "Database table holding a pool of Shoppix.me email addresses. Each row can be assigned to one AppUser.",
+      "lastUpdated": "2026-09-01T11:56:39.831Z"
+    },
+    {
+      "id": "createuserprofile-queue",
+      "term": "createuserprofile queue",
+      "definition": "Service bus queue that receives CreateUserProfileAsyncCommand messages after registration, forwarding data to DPP and GPM.",
+      "lastUpdated": "2026-09-01T11:56:39.831Z"
+    },
+    {
+      "id": "activesubmissionnotificationtype-queue",
+      "term": "activesubmissionnotificationtype queue",
+      "definition": "Service bus queue that receives scheduled notification messages for the ActiveSubmission email, delivered at 1pm the next day.",
+      "lastUpdated": "2026-09-01T11:56:39.831Z"
+    },
+    {
+      "id": "morpheus-profile",
+      "term": "Morpheus.Profile",
+      "definition": "Backend service/module handling user profile creation, authentication, and related operations.",
+      "lastUpdated": "2026-09-01T11:56:39.831Z"
+    },
+    {
+      "id": "appuser",
+      "term": "AppUser",
+      "definition": "Core user entity — contains email, postcode, Facebook/Apple IDs, ActiveSubmissionEmail, tokens, and auth data.",
+      "lastUpdated": "2026-09-01T11:56:39.831Z"
+    },
+    {
+      "id": "temporary-email",
+      "term": "TemporaryEmail",
+      "definition": "The email entered during registration, stored before email confirmation. Becomes the primary Email after confirmation.",
+      "lastUpdated": "2026-09-01T11:56:39.831Z"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "_description": "Application features and modules discovered from Azure Boards tickets",
+  "features": [
+    {
+      "id": "profile-registration",
+      "name": "Profile Registration",
+      "description": "User registration via email, Facebook, or Apple Sign In. Creates AppUser, validates input, assigns tokens.",
+      "module": "Morpheus.Profile",
+      "lastUpdated": "2026-09-01T11:56:39.829Z"
+    },
+    {
+      "id": "active-submission-email",
+      "name": "Active Submission Email Auto-Assignment",
+      "description": "Automatically assigns a Shoppix.me email from the pool during registration. No 50-token bonus for auto-assigned emails.",
+      "module": "Morpheus.Profile",
+      "lastUpdated": "2026-09-01T11:56:39.830Z"
+    },
+    {
+      "id": "service-bus-messaging",
+      "name": "Service Bus Messaging on Registration",
+      "description": "Sends createuserprofile message and scheduled activesubmissionnotificationtype message after registration.",
+      "module": "Morpheus.Profile",
+      "lastUpdated": "2026-09-01T11:56:39.830Z"
+    },
+    {
+      "id": "shoppix-me-email-notification",
+      "name": "Shoppix.me Email Notification at 1pm Next Day",
+      "description": "Schedules ActiveSubmissionRegistrationCompletedEmailNotification to be sent at 1pm the day after registration, respecting DST.",
+      "module": "Morpheus.Profile",
+      "lastUpdated": "2026-09-01T11:56:39.830Z"
+    }
+  ]
+}

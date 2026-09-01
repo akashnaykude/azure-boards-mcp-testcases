@@ -1,0 +1,37 @@
+{
+  "_description": "Tracks which features and screens have been covered by test cases",
+  "coverage": [
+    {
+      "id": "profile-registration",
+      "ticketIds": [
+        211576
+      ],
+      "lastTestedOn": "2026-09-01T11:56:39.832Z",
+      "testCount": 28
+    },
+    {
+      "id": "active-submission-email",
+      "ticketIds": [
+        211576
+      ],
+      "lastTestedOn": "2026-09-01T11:56:39.832Z",
+      "testCount": 28
+    },
+    {
+      "id": "service-bus-messaging",
+      "ticketIds": [
+        211576
+      ],
+      "lastTestedOn": "2026-09-01T11:56:39.832Z",
+      "testCount": 28
+    },
+    {
+      "id": "shoppix-me-email-notification",
+      "ticketIds": [
+        211576
+      ],
+      "lastTestedOn": "2026-09-01T11:56:39.832Z",
+      "testCount": 28
+    }
+  ]
+}
