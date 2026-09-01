@@ -3,9 +3,14 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { z } from 'zod';
 import * as XLSX from 'xlsx';
 import mammoth from 'mammoth';
-import pdfParse from 'pdf-parse';
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
+const pdfParse = require('pdf-parse');
 import Tesseract from 'tesseract.js';
 import { pdf as pdfToImg } from 'pdf-to-img';
+import { writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { join, resolve } from 'node:path';
+import { spawn } from 'node:child_process';
 
 const REQUIRED_ENV_VARS = ['AZDO_ORG', 'AZDO_PROJECT', 'AZDO_PAT'];
 const DEFAULT_API_VERSION = '7.1-preview.3';
@@ -294,6 +299,103 @@ server.registerTool(
             text: error instanceof Error ? error.message : 'Unknown error while fetching Azure Boards work item.'
           }
         ]
+      };
+    }
+  }
+);
+
+function buildExcelBuffer(testCases) {
+  const headers = ['Title', 'Preconditions', 'Steps', 'Expected Result', 'Priority', 'Type', 'Automation Status'];
+  const rows = testCases.map((tc) => [
+    tc.title || '',
+    tc.preconditions || '',
+    tc.steps || '',
+    tc.expectedResult || '',
+    tc.priority || 'Medium',
+    tc.type || 'Functional',
+    tc.automationStatus || 'None'
+  ]);
+
+  const wsData = [headers, ...rows];
+  const ws = XLSX.utils.aoa_to_sheet(wsData);
+
+  ws['!cols'] = [
+    { wch: 50 }, { wch: 40 }, { wch: 50 }, { wch: 50 },
+    { wch: 10 }, { wch: 15 }, { wch: 20 }
+  ];
+
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Test Cases');
+  return XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' });
+}
+
+function sanitizeFileName(name) {
+  return name.replace(/[<>:"/\\|?*]/g, '_').replace(/\s+/g, '_').substring(0, 100);
+}
+
+function getOutputDir() {
+  if (process.env.TEST_CASES_OUTPUT_DIR) {
+    return resolve(process.env.TEST_CASES_OUTPUT_DIR);
+  }
+  // Default: Desktop/Shoppix Test Cases
+  const home = process.env.USERPROFILE || process.env.HOME || '.';
+  return join(home, 'Desktop', 'Shoppix Test Cases');
+}
+
+server.registerTool(
+  'export_test_cases_to_onedrive',
+  {
+    title: 'Export test cases to Excel',
+    description: 'Creates an Excel file with test cases in TestRail format and saves it to the "Shoppix Test Cases" folder on Desktop (or TEST_CASES_OUTPUT_DIR). File is named <functionality>_<dd_mm_yyyy>.xlsx. Opens the file in Explorer after saving.',
+    inputSchema: {
+      functionalityTitle: z.string().describe('The functionality/feature name for the file name'),
+      testCases: z.array(z.object({
+        title: z.string(),
+        preconditions: z.string().optional().default(''),
+        steps: z.string(),
+        expectedResult: z.string(),
+        priority: z.string().optional().default('Medium'),
+        type: z.string().optional().default('Functional'),
+        automationStatus: z.string().optional().default('None')
+      })).describe('Array of test cases in TestRail format')
+    }
+  },
+  async ({ functionalityTitle, testCases }) => {
+    try {
+      const now = new Date();
+      const dd = String(now.getDate()).padStart(2, '0');
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const yyyy = now.getFullYear();
+      const dateStr = `${dd}_${mm}_${yyyy}`;
+      const fileName = `${sanitizeFileName(functionalityTitle)}_${dateStr}.xlsx`;
+
+      const excelBuffer = buildExcelBuffer(testCases);
+
+      const outputDir = getOutputDir();
+      if (!existsSync(outputDir)) {
+        mkdirSync(outputDir, { recursive: true });
+      }
+
+      const filePath = join(outputDir, fileName);
+      writeFileSync(filePath, excelBuffer);
+
+      // Open folder in Explorer without blocking the response
+      const child = spawn('explorer.exe', ['/select,', filePath], { detached: true, stdio: 'ignore' });
+      child.unref();
+
+      return {
+        content: [{
+          type: 'text',
+          text: `Exported ${testCases.length} test cases to Excel.\nFile: ${fileName}\nSaved at: ${filePath}\n\nTo upload to OneDrive: open https://numeratorinternational-my.sharepoint.com/ → Shoppix Test Cases folder → upload this file.`
+        }]
+      };
+    } catch (error) {
+      return {
+        isError: true,
+        content: [{
+          type: 'text',
+          text: error instanceof Error ? error.message : 'Failed to export test cases.'
+        }]
       };
     }
   }

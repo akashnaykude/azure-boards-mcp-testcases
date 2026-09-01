@@ -16,12 +16,26 @@ Required workflow:
    - If any field or attachment was empty/missing, explicitly mention it.
 5. Generate QA test cases from the fetched ticket context — use related child work items and comments for additional scenario coverage.
 6. Include positive, negative, edge, regression, and accessibility coverage when relevant.
-7. Return results as a clear table.
-8. Using images available in the work item, description, and comments, generate visual test cases that validate UI elements, screen flows, and user interactions. Include image references in the test case table.
-9. **After the test case table, provide an "Image-Based Test Case Mapping" section** that clearly lists which test cases were derived from each image/screenshot. For every image analyzed, list:
-   - The image file name
-   - A brief description of what the image shows
-   - The specific test case numbers (e.g. #1, #5, #12) that were created based on that image
-   - What UI elements or flows from the image inspired each test case
+7. **TestRail-Compatible Format**: Structure test cases internally with these exact columns (TestRail import format) for Excel export:
+   - **Title**: Short descriptive test case name
+   - **Preconditions**: Any setup/prerequisites needed before executing
+   - **Steps**: Numbered step-by-step actions (use line breaks within the cell: Step 1\nStep 2\nStep 3)
+   - **Expected Result**: What should happen after executing the steps
+   - **Priority**: Critical / High / Medium / Low
+   - **Type**: Functional / Negative / Edge Case / Regression / Accessibility / Visual / Integration
+   - **Automation Status**: None (default for new test cases)
+8. Using images available in the work item, description, and comments, generate visual test cases that validate UI elements, screen flows, and user interactions.
+9. **Auto-Export to Excel**: Immediately call the MCP tool `export_test_cases_to_onedrive` with the test cases data. Pass the functionality title (from the work item title) and the structured test cases array. The tool will create an Excel file named `<functionality>_<dd_mm_yyyy>.xlsx` in the "Shoppix Test Cases" folder.
+10. **DO NOT print the full test case table in chat.** Since test cases are exported to Excel, showing them again in chat is redundant. Instead, after export, show a **compact summary** in chat:
+    - **Total test case count**
+    - **Breakdown by Type** (e.g., Functional: 20, Negative: 3, Edge Case: 2, etc.)
+    - **Breakdown by Priority** (e.g., Critical: 5, High: 12, Medium: 15, Low: 4)
+    - **Key areas covered** — a short bullet list of the main functional areas/scenarios tested (e.g., "Token balance display", "Category filtering", "Offline handling")
+    - **Excel file path** for quick access
+11. **After the summary, provide an "Image-Based Test Case Mapping" section** that clearly lists which test cases were derived from each image/screenshot. For every image analyzed, list:
+    - The image file name
+    - A brief description of what the image shows
+    - The specific test case titles that were created based on that image
+    - What UI elements or flows from the image inspired each test case
 
 If any ticket field is missing, mention the assumption and continue with best-effort test cases.
