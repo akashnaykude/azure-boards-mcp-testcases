@@ -8,3 +8,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 *.traineddata
+
+# Temporary files created during test case generation
+temp/*
+!temp/.gitkeep

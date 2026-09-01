@@ -39,3 +39,6 @@ Required workflow:
     - What UI elements or flows from the image inspired each test case
 
 If any ticket field is missing, mention the assumption and continue with best-effort test cases.
+
+## Temporary Files Policy
+All temporary files (extracted images, downloaded attachments, intermediate processing files) MUST be created inside the `temp/` folder at the project root — **NEVER** in the project root or any other directory. After the temporary file has been used (e.g., image analyzed, attachment parsed), **delete it immediately** using a terminal command. At the end of every test case generation workflow, run a cleanup to remove all files from `temp/` (but keep `temp/.gitkeep`). The `temp/` folder is git-ignored so nothing in it will be committed.
