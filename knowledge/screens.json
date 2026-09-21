@@ -225,6 +225,30 @@
         "app icon"
       ],
       "addedOn": "2026-09-21T05:57:27.044Z"
+    },
+    {
+      "id": "notification-empty-state-screen",
+      "name": "Notification Empty State",
+      "description": "Notification Centre empty state per Figma: illustration + heading + subtext + 'Start snapping' CTA.",
+      "elements": [
+        "bell illustration (yellow with girl)",
+        "heading 'No notifications yet'",
+        "subtext",
+        "'Start snapping' button"
+      ],
+      "addedOn": "2026-09-21T06:57:40.138Z"
+    },
+    {
+      "id": "notification-error-state-screen",
+      "name": "Notification Error State",
+      "description": "Notification Centre error state per Figma: illustration + heading + subtext + 'Try again' CTA.",
+      "elements": [
+        "bell + question mark illustration",
+        "heading 'Something went wrong'",
+        "subtext",
+        "'Try again' button"
+      ],
+      "addedOn": "2026-09-21T06:57:40.138Z"
     }
   ]
 }

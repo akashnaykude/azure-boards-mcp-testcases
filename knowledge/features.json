@@ -90,19 +90,19 @@
     },
     {
       "id": "notification-empty-state",
-      "name": "Notification Empty State UI",
-      "description": "Empty state screen when user has no notifications.",
+      "name": "Notification Empty State",
+      "description": "Figma-specified empty state with bell illustration and 'Start snapping' CTA.",
       "module": "Notifications",
       "addedOn": "2026-09-01T14:04:54.600Z",
-      "lastUpdated": "2026-09-01T14:17:57.208Z"
+      "lastUpdated": "2026-09-21T06:57:40.136Z"
     },
     {
       "id": "notification-error-state",
-      "name": "Notification Error State UI",
-      "description": "Error state with retry when notification loading fails.",
+      "name": "Notification Error State",
+      "description": "Figma-specified error state with bell + question mark illustration and 'Try again' CTA.",
       "module": "Notifications",
       "addedOn": "2026-09-01T14:04:54.600Z",
-      "lastUpdated": "2026-09-01T14:17:57.208Z"
+      "lastUpdated": "2026-09-21T06:57:40.136Z"
     },
     {
       "id": "push-notification-config",

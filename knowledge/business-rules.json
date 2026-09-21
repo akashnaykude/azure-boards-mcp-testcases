@@ -427,6 +427,42 @@
       "rule": "Notification body must use '1 minute' (singular) when duration equals 1; current 'It only takes 1 minutes' is a defect.",
       "feature": "notification-messaging",
       "addedOn": "2026-09-21T05:57:27.047Z"
+    },
+    {
+      "id": "empty-state-illustration-and-cta",
+      "rule": "Empty state must render the yellow bell illustration with 'No notifications yet' heading and a full-width 'Start snapping' CTA that opens the receipt snap flow.",
+      "feature": "notification-empty-state",
+      "addedOn": "2026-09-21T06:57:40.141Z"
+    },
+    {
+      "id": "error-state-illustration-and-cta",
+      "rule": "Error state must render the bell + question mark illustration with 'Something went wrong' heading and a full-width 'Try again' CTA that retries loading.",
+      "feature": "notification-error-state",
+      "addedOn": "2026-09-21T06:57:40.141Z"
+    },
+    {
+      "id": "per-category-icon-color-mapping",
+      "rule": "Category icon backgrounds map to distinct colors: Rewards purple, Reminder cyan, Survey purple, Warning light blue with blue exclamation, Referral green, Shelf purple, Voucher orange, Scratchcard yellow, E-receipts purple, Nulink orange, Receipt approved green.",
+      "feature": "notification-icons",
+      "addedOn": "2026-09-21T06:57:40.141Z"
+    },
+    {
+      "id": "placeholders-must-resolve",
+      "rule": "Dynamic placeholders like {tokens}, {minutes}, {days}, {N}, {email} must be replaced at runtime; raw curly-brace placeholders must never be shown to end users.",
+      "feature": "notification-messaging",
+      "addedOn": "2026-09-21T06:57:40.141Z"
+    },
+    {
+      "id": "scratchcard-singular-plural",
+      "rule": "Scratchcard notification title and body must respect singular vs plural: 'a scratchcard' / 'Scratch your card' for 1; '2 scratchcards' / 'Scratch your cards' for 2+.",
+      "feature": "notification-messaging",
+      "addedOn": "2026-09-21T06:57:40.141Z"
+    },
+    {
+      "id": "no-placeholder-strings-in-prod",
+      "rule": "Design placeholder strings such as 'Referral title', 'Need to check', or 'No text' must not be shipped to production.",
+      "feature": "notification-messaging",
+      "addedOn": "2026-09-21T06:57:40.141Z"
     }
   ]
 }

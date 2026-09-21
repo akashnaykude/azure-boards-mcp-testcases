@@ -136,18 +136,19 @@
       "title": "Changes for notifications",
       "url": "https://dev.azure.com/worldpanelbynumerator/KT-DataCollection/_workitems/edit/208152",
       "type": "Product Backlog Item",
-      "summary": "Video-derived observations for the Shoppix bell icon and Notification Centre: unread cards use a teal border with a red dot on the icon; CTA colors follow a type-based mapping (scratch = yellow, other actions = dark blue); category icons observed for scratchcard/survey/voucher/retailer-linking/active-submission; timestamps show DD/MM/YYYY for recent and relative time for older; deep-link CTAs confirmed for survey (Tivian), voucher detail (B&Q £5), and scratch flow with home scratchcard count increment; empty/error state is a single centered refresh icon; bottom nav hidden on Notification Centre; grammar defect noted for '1 minutes'.",
-      "testCaseCount": 19,
+      "summary": "Pending Figma-derived test cases for the Notification Centre and bell icon flow: empty and error state visuals and CTAs (Start snapping / Try again), per-category icon color mapping across 11 categories, dynamic placeholder resolution and fallbacks, singular/plural handling for scratchcards, complete CTA-to-destination matrix, Nulink and Receipt-approved retry variants, screen header text and structural details (clock icon, full-width CTA, card styling), and safeguards against design placeholders leaking to production.",
+      "testCaseCount": 22,
       "coveredAreas": [
-        "notification-bell-icon",
-        "notification-messaging",
+        "notification-empty-state",
+        "notification-error-state",
         "notification-icons",
+        "notification-messaging",
         "notification-deep-links",
-        "notification-empty-state"
+        "notification-bell-icon"
       ],
-      "processedOn": "2026-09-21T05:57:27.034Z",
+      "processedOn": "2026-09-21T06:57:40.132Z",
       "addedOn": "2026-09-21T05:18:37.300Z",
-      "lastUpdated": "2026-09-21T05:57:27.034Z"
+      "lastUpdated": "2026-09-21T06:57:40.132Z"
     }
   ]
 }

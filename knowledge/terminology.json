@@ -264,6 +264,24 @@
       "term": "Unread teal border",
       "definition": "Teal-colored border rendered around an unread notification card.",
       "addedOn": "2026-09-21T05:57:27.049Z"
+    },
+    {
+      "id": "start-snapping-cta",
+      "term": "Start snapping",
+      "definition": "Empty state CTA that starts the receipt snapping flow.",
+      "addedOn": "2026-09-21T06:57:40.144Z"
+    },
+    {
+      "id": "try-again-cta",
+      "term": "Try again",
+      "definition": "Error state CTA that retries loading notifications.",
+      "addedOn": "2026-09-21T06:57:40.144Z"
+    },
+    {
+      "id": "nulink-category",
+      "term": "Nulink",
+      "definition": "Retailer linking notification category (e.g. M&S account connected/failed).",
+      "addedOn": "2026-09-21T06:57:40.144Z"
     }
   ]
 }
