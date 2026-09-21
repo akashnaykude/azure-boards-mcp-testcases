@@ -42,6 +42,228 @@
       "term": "TemporaryEmail",
       "definition": "The email entered during registration, stored before email confirmation. Becomes the primary Email after confirmation.",
       "lastUpdated": "2026-09-01T11:56:39.831Z"
+    },
+    {
+      "id": "my-vouchers",
+      "term": "My Vouchers",
+      "definition": "The rewards screen that lists redeemed vouchers and their detail pages.",
+      "addedOn": "2026-09-01T12:11:02.089Z"
+    },
+    {
+      "id": "voucher-amount",
+      "term": "Voucher Amount",
+      "definition": "The monetary value shown for a voucher, such as £5 or £15.",
+      "addedOn": "2026-09-01T12:11:02.089Z"
+    },
+    {
+      "id": "redemption-date",
+      "term": "Redemption date",
+      "definition": "The date or timestamp shown for when the voucher was redeemed.",
+      "addedOn": "2026-09-01T12:11:02.089Z"
+    },
+    {
+      "id": "order-reference",
+      "term": "Order reference",
+      "definition": "The unique identifier displayed on the voucher detail page and available for copying.",
+      "addedOn": "2026-09-01T12:11:02.089Z"
+    },
+    {
+      "id": "go-to-my-voucher",
+      "term": "Go to my voucher",
+      "definition": "The CTA that opens the voucher code or redemption experience for supported vouchers.",
+      "addedOn": "2026-09-01T12:11:02.089Z"
+    },
+    {
+      "id": "cta-button",
+      "term": "CTA Button",
+      "definition": "Call-to-action button within a notification that navigates user to a specific app screen.",
+      "addedOn": "2026-09-01T14:04:54.602Z",
+      "lastUpdated": "2026-09-01T14:17:57.211Z"
+    },
+    {
+      "id": "notification-category",
+      "term": "Notification Category",
+      "definition": "Classification of notifications into types with distinct icons: Shelf, Referrals, Reminder, Warning, Voucher.",
+      "addedOn": "2026-09-01T14:04:54.602Z",
+      "lastUpdated": "2026-09-01T14:17:57.211Z"
+    },
+    {
+      "id": "morpheus-messaging",
+      "term": "Morpheus.Messaging",
+      "definition": "Backend service responsible for formatting and sending notification payloads to mobile devices.",
+      "addedOn": "2026-09-01T14:04:54.602Z",
+      "lastUpdated": "2026-09-01T14:17:57.211Z"
+    },
+    {
+      "id": "bulk-notification",
+      "term": "BULK_NOTIFICATION",
+      "definition": "A placeholder for supporting bulk notifications sent with any text to any user via Manage Shoppix.",
+      "addedOn": "2026-09-01T14:17:57.211Z"
+    },
+    {
+      "id": "account-dropped-out",
+      "term": "ACCOUNT_DROPPED_OUT",
+      "definition": "Notification triggered when user's account is dropped out (can no longer send receipts).",
+      "addedOn": "2026-09-01T14:17:57.211Z"
+    },
+    {
+      "id": "facebook-created-account",
+      "term": "Facebook-created account",
+      "definition": "A Shoppix account created using Facebook sign-in rather than local email/password registration.",
+      "addedOn": "2026-09-02T10:09:14.430Z",
+      "lastUpdated": "2026-09-03T09:22:50.276Z"
+    },
+    {
+      "id": "deactivate-account",
+      "term": "Deactivate account",
+      "definition": "A lifecycle action that marks the account inactive while preserving or suspending access as implemented by the app.",
+      "addedOn": "2026-09-02T10:09:14.430Z",
+      "lastUpdated": "2026-09-03T09:22:50.276Z"
+    },
+    {
+      "id": "delete-account",
+      "term": "Delete account",
+      "definition": "A lifecycle action that removes the account or makes it unavailable for future login.",
+      "addedOn": "2026-09-02T10:09:14.430Z",
+      "lastUpdated": "2026-09-03T09:22:50.276Z"
+    },
+    {
+      "id": "token-history",
+      "term": "Token History",
+      "definition": "The ledger-like screen that shows earned token credits and the running balance.",
+      "addedOn": "2026-09-02T10:18:50.306Z"
+    },
+    {
+      "id": "registration-credit",
+      "term": "Registration credit",
+      "definition": "The legitimate token credit granted for account registration, distinct from the removed 50-token reward.",
+      "addedOn": "2026-09-02T10:18:50.306Z"
+    },
+    {
+      "id": "shoppix-email-reward",
+      "term": "Shoppix.me email reward",
+      "definition": "The legacy 50-token incentive that was previously awarded for selecting a Shoppix.me email address.",
+      "addedOn": "2026-09-02T10:18:50.306Z"
+    },
+    {
+      "id": "account-deletion-queue",
+      "term": "Account deletion queue",
+      "definition": "Service bus destination used to propagate account deletion; must not accumulate dead-letter messages.",
+      "addedOn": "2026-09-03T09:22:50.276Z"
+    },
+    {
+      "id": "ms-manage-shoppix",
+      "term": "MS / Manage Shoppix",
+      "definition": "The survey management area referenced in the ticket where the Launch button behavior is controlled.",
+      "addedOn": "2026-09-08T08:26:27.894Z"
+    },
+    {
+      "id": "survey-status-created",
+      "term": "Created",
+      "definition": "A survey status that allows the Launch button to be enabled.",
+      "addedOn": "2026-09-08T08:26:27.894Z"
+    },
+    {
+      "id": "survey-status-userlistrefreshed",
+      "term": "UserListRefreshed",
+      "definition": "A survey status that allows the Launch button to be enabled.",
+      "addedOn": "2026-09-08T08:26:27.894Z"
+    },
+    {
+      "id": "launch-button",
+      "term": "Launch button",
+      "definition": "The survey action button whose availability depends on the survey status.",
+      "addedOn": "2026-09-08T08:26:27.894Z"
+    },
+    {
+      "id": "tivian-survey-id",
+      "term": "Tivian survey ID",
+      "definition": "The external survey identifier that is validated before a survey can be created in Manage Shoppix.",
+      "addedOn": "2026-09-08T08:36:20.259Z"
+    },
+    {
+      "id": "refresh-surveys",
+      "term": "Refresh Surveys",
+      "definition": "Action used to sync survey records into the Manage Shoppix survey list.",
+      "addedOn": "2026-09-08T08:36:20.259Z"
+    },
+    {
+      "id": "refresh-users",
+      "term": "Refresh Users",
+      "definition": "Action used to refresh the survey audience before launch.",
+      "addedOn": "2026-09-08T08:36:20.259Z"
+    },
+    {
+      "id": "launch-survey",
+      "term": "Launch Survey",
+      "definition": "The action that launches a survey once the status is eligible.",
+      "addedOn": "2026-09-08T08:36:20.259Z"
+    },
+    {
+      "id": "created-status",
+      "term": "Created",
+      "definition": "Survey status that allows the Launch Survey button to be enabled.",
+      "addedOn": "2026-09-08T08:36:20.259Z"
+    },
+    {
+      "id": "userlistrefreshed-status",
+      "term": "UserListRefreshed",
+      "definition": "Survey status that allows the Launch Survey button to be enabled.",
+      "addedOn": "2026-09-08T08:36:20.259Z"
+    },
+    {
+      "id": "launched-status",
+      "term": "Launched",
+      "definition": "Survey status shown after a successful launch.",
+      "addedOn": "2026-09-08T08:36:20.259Z"
+    },
+    {
+      "id": "deactivated-status",
+      "term": "Deactivated",
+      "definition": "Survey status where the Launch Survey button should remain disabled.",
+      "addedOn": "2026-09-08T08:36:20.259Z"
+    },
+    {
+      "id": "bell-icon",
+      "term": "Bell icon",
+      "definition": "The header icon that indicates notifications and navigates to the Notification Centre when tapped.",
+      "addedOn": "2026-09-21T05:03:34.142Z"
+    },
+    {
+      "id": "unread-badge",
+      "term": "Unread badge",
+      "definition": "The visual indicator on the bell icon that shows the number of unread notifications.",
+      "addedOn": "2026-09-21T05:03:34.142Z"
+    },
+    {
+      "id": "column-n-cta",
+      "term": "Column N (CTA)",
+      "definition": "Column in the notification configuration spreadsheet that provides the CTA button title.",
+      "addedOn": "2026-09-21T05:18:37.308Z"
+    },
+    {
+      "id": "scratch-cta-yellow",
+      "term": "Scratch CTA (yellow)",
+      "definition": "Yellow CTA style used for scratch/reward notifications.",
+      "addedOn": "2026-09-21T05:57:27.049Z"
+    },
+    {
+      "id": "action-cta-dark-blue",
+      "term": "Action CTA (dark blue)",
+      "definition": "Dark blue CTA style used for standard action notifications like Start now and View voucher.",
+      "addedOn": "2026-09-21T05:57:27.049Z"
+    },
+    {
+      "id": "unread-red-dot",
+      "term": "Unread red dot",
+      "definition": "Small red circle placed on the top-right of a card's category icon to indicate an unread notification.",
+      "addedOn": "2026-09-21T05:57:27.049Z"
+    },
+    {
+      "id": "unread-teal-border",
+      "term": "Unread teal border",
+      "definition": "Teal-colored border rendered around an unread notification card.",
+      "addedOn": "2026-09-21T05:57:27.049Z"
     }
   ]
 }

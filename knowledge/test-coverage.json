@@ -32,6 +32,259 @@
       ],
       "lastTestedOn": "2026-09-01T11:56:39.832Z",
       "testCount": 28
+    },
+    {
+      "id": "my-vouchers-ui",
+      "ticketIds": [
+        211706
+      ],
+      "lastTestedOn": "2026-09-01T12:11:02.089Z",
+      "testCount": 13
+    },
+    {
+      "id": "voucher-listing",
+      "ticketIds": [
+        211706
+      ],
+      "lastTestedOn": "2026-09-01T12:11:02.089Z",
+      "testCount": 13
+    },
+    {
+      "id": "voucher-detail",
+      "ticketIds": [
+        211706
+      ],
+      "lastTestedOn": "2026-09-01T12:11:02.089Z",
+      "testCount": 13
+    },
+    {
+      "id": "voucher-redeem-cta",
+      "ticketIds": [
+        211706
+      ],
+      "lastTestedOn": "2026-09-01T12:11:02.089Z",
+      "testCount": 13
+    },
+    {
+      "id": "voucher-reference-copy",
+      "ticketIds": [
+        211706
+      ],
+      "lastTestedOn": "2026-09-01T12:11:02.089Z",
+      "testCount": 13
+    },
+    {
+      "id": "notification-messaging",
+      "ticketIds": [
+        64995,
+        208152
+      ],
+      "lastTestedOn": "2026-09-21T05:57:27.052Z",
+      "testCount": 179
+    },
+    {
+      "id": "notification-icons",
+      "ticketIds": [
+        64995,
+        208152
+      ],
+      "lastTestedOn": "2026-09-21T05:57:27.052Z",
+      "testCount": 179
+    },
+    {
+      "id": "notification-deep-links",
+      "ticketIds": [
+        64995,
+        208152
+      ],
+      "lastTestedOn": "2026-09-21T05:57:27.052Z",
+      "testCount": 179
+    },
+    {
+      "id": "notification-empty-state",
+      "ticketIds": [
+        64995,
+        208152
+      ],
+      "lastTestedOn": "2026-09-21T05:57:27.052Z",
+      "testCount": 163
+    },
+    {
+      "id": "notification-error-state",
+      "ticketIds": [
+        64995
+      ],
+      "lastTestedOn": "2026-09-01T14:17:57.212Z",
+      "testCount": 144
+    },
+    {
+      "id": "push-notification-config",
+      "ticketIds": [
+        64995
+      ],
+      "lastTestedOn": "2026-09-01T14:17:57.212Z",
+      "testCount": 144
+    },
+    {
+      "id": "compliance-notifications",
+      "ticketIds": [
+        64995
+      ],
+      "lastTestedOn": "2026-09-01T14:17:57.212Z",
+      "testCount": 102
+    },
+    {
+      "id": "duplicate-receipt-notifications",
+      "ticketIds": [
+        64995
+      ],
+      "lastTestedOn": "2026-09-01T14:17:57.212Z",
+      "testCount": 102
+    },
+    {
+      "id": "e-receipt-notifications",
+      "ticketIds": [
+        64995
+      ],
+      "lastTestedOn": "2026-09-01T14:17:57.212Z",
+      "testCount": 102
+    },
+    {
+      "id": "reward-notifications",
+      "ticketIds": [
+        64995
+      ],
+      "lastTestedOn": "2026-09-01T14:17:57.212Z",
+      "testCount": 102
+    },
+    {
+      "id": "scratchcard-notifications",
+      "ticketIds": [
+        64995
+      ],
+      "lastTestedOn": "2026-09-01T14:17:57.212Z",
+      "testCount": 102
+    },
+    {
+      "id": "survey-notifications",
+      "ticketIds": [
+        64995
+      ],
+      "lastTestedOn": "2026-09-01T14:17:57.212Z",
+      "testCount": 102
+    },
+    {
+      "id": "receipt-challenge-notifications",
+      "ticketIds": [
+        64995
+      ],
+      "lastTestedOn": "2026-09-01T14:17:57.212Z",
+      "testCount": 102
+    },
+    {
+      "id": "account-deactivation",
+      "ticketIds": [
+        212553
+      ],
+      "lastTestedOn": "2026-09-03T09:22:50.277Z",
+      "testCount": 28
+    },
+    {
+      "id": "account-deletion",
+      "ticketIds": [
+        212553
+      ],
+      "lastTestedOn": "2026-09-03T09:22:50.277Z",
+      "testCount": 28
+    },
+    {
+      "id": "facebook-social-login",
+      "ticketIds": [
+        212553
+      ],
+      "lastTestedOn": "2026-09-03T09:22:50.277Z",
+      "testCount": 28
+    },
+    {
+      "id": "reward-suppression",
+      "ticketIds": [
+        211579
+      ],
+      "lastTestedOn": "2026-09-02T10:18:50.306Z",
+      "testCount": 13
+    },
+    {
+      "id": "token-history",
+      "ticketIds": [
+        211579
+      ],
+      "lastTestedOn": "2026-09-02T10:18:50.306Z",
+      "testCount": 13
+    },
+    {
+      "id": "reward-notification-suppression",
+      "ticketIds": [
+        211579
+      ],
+      "lastTestedOn": "2026-09-02T10:18:50.306Z",
+      "testCount": 13
+    },
+    {
+      "id": "account-state-endpoint",
+      "ticketIds": [
+        212553
+      ],
+      "lastTestedOn": "2026-09-03T09:22:50.277Z",
+      "testCount": 16
+    },
+    {
+      "id": "account-deletion-service-bus",
+      "ticketIds": [
+        212553
+      ],
+      "lastTestedOn": "2026-09-03T09:22:50.277Z",
+      "testCount": 16
+    },
+    {
+      "id": "survey-launch-button-gating",
+      "ticketIds": [
+        210626
+      ],
+      "lastTestedOn": "2026-09-08T08:36:20.260Z",
+      "testCount": 27
+    },
+    {
+      "id": "survey-creation-flow",
+      "ticketIds": [
+        210626
+      ],
+      "lastTestedOn": "2026-09-08T08:36:20.260Z",
+      "testCount": 16
+    },
+    {
+      "id": "survey-refresh-users",
+      "ticketIds": [
+        210626
+      ],
+      "lastTestedOn": "2026-09-08T08:36:20.260Z",
+      "testCount": 16
+    },
+    {
+      "id": "survey-app-reflection",
+      "ticketIds": [
+        210626
+      ],
+      "lastTestedOn": "2026-09-08T08:36:20.260Z",
+      "testCount": 16
+    },
+    {
+      "id": "notification-bell-icon",
+      "ticketIds": [
+        0,
+        208152
+      ],
+      "lastTestedOn": "2026-09-21T05:57:27.051Z",
+      "testCount": 54
     }
   ]
 }

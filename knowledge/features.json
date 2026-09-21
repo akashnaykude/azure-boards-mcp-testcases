@@ -28,6 +28,184 @@
       "description": "Schedules ActiveSubmissionRegistrationCompletedEmailNotification to be sent at 1pm the day after registration, respecting DST.",
       "module": "Morpheus.Profile",
       "lastUpdated": "2026-09-01T11:56:39.830Z"
+    },
+    {
+      "id": "my-vouchers-ui",
+      "name": "My Vouchers UI",
+      "description": "Voucher list and voucher detail screens in the rewards module.",
+      "module": "Android Rewards Migration",
+      "addedOn": "2026-09-01T12:11:02.086Z"
+    },
+    {
+      "id": "voucher-listing",
+      "name": "Voucher Listing",
+      "description": "Displays redeemed vouchers as cards with brand, amount, redemption date, and navigation chevron.",
+      "module": "Android Rewards Migration",
+      "addedOn": "2026-09-01T12:11:02.086Z"
+    },
+    {
+      "id": "voucher-detail",
+      "name": "Voucher Detail",
+      "description": "Shows brand-specific voucher information, amount, order reference, email, and redemption date.",
+      "module": "Android Rewards Migration",
+      "addedOn": "2026-09-01T12:11:02.086Z"
+    },
+    {
+      "id": "voucher-redeem-cta",
+      "name": "Voucher Redeem CTA",
+      "description": "Shows and routes the Go to my voucher action for supported vouchers.",
+      "module": "Android Rewards Migration",
+      "addedOn": "2026-09-01T12:11:02.086Z"
+    },
+    {
+      "id": "voucher-reference-copy",
+      "name": "Voucher Reference Copy",
+      "description": "Lets the user copy the voucher order reference from the detail screen.",
+      "module": "Android Rewards Migration",
+      "addedOn": "2026-09-01T12:11:02.086Z"
+    },
+    {
+      "id": "notification-messaging",
+      "name": "Notification Messaging Redesign",
+      "description": "Updated notification wording for 26+ notification types with user-centric language, dynamic variables, and redesigned CTA buttons.",
+      "module": "Notifications",
+      "addedOn": "2026-09-01T14:04:54.600Z",
+      "lastUpdated": "2026-09-01T14:17:57.208Z"
+    },
+    {
+      "id": "notification-icons",
+      "name": "Notification Category Icons",
+      "description": "Category-specific notification icons: shelf, referral, reminder, warning, voucher.",
+      "module": "Notifications",
+      "addedOn": "2026-09-01T14:04:54.600Z",
+      "lastUpdated": "2026-09-01T14:17:57.208Z"
+    },
+    {
+      "id": "notification-deep-links",
+      "name": "Notification Deep Links",
+      "description": "Updated and new deep links from notifications to specific app screens.",
+      "module": "Notifications",
+      "addedOn": "2026-09-01T14:04:54.600Z",
+      "lastUpdated": "2026-09-01T14:17:57.208Z"
+    },
+    {
+      "id": "notification-empty-state",
+      "name": "Notification Empty State UI",
+      "description": "Empty state screen when user has no notifications.",
+      "module": "Notifications",
+      "addedOn": "2026-09-01T14:04:54.600Z",
+      "lastUpdated": "2026-09-01T14:17:57.208Z"
+    },
+    {
+      "id": "notification-error-state",
+      "name": "Notification Error State UI",
+      "description": "Error state with retry when notification loading fails.",
+      "module": "Notifications",
+      "addedOn": "2026-09-01T14:04:54.600Z",
+      "lastUpdated": "2026-09-01T14:17:57.208Z"
+    },
+    {
+      "id": "push-notification-config",
+      "name": "Push Notification Configuration",
+      "description": "Updated push notification configuration for delivery settings.",
+      "module": "Notifications",
+      "addedOn": "2026-09-01T14:04:54.600Z"
+    },
+    {
+      "id": "account-deactivation",
+      "name": "Account Deactivation",
+      "description": "Allows a logged-in user to deactivate their Shoppix account.",
+      "module": "Android Account Management",
+      "addedOn": "2026-09-02T10:09:14.426Z",
+      "lastUpdated": "2026-09-03T09:22:50.272Z"
+    },
+    {
+      "id": "account-deletion",
+      "name": "Account Deletion",
+      "description": "Allows a logged-in user to delete their Shoppix account.",
+      "module": "Android Account Management",
+      "addedOn": "2026-09-02T10:09:14.426Z",
+      "lastUpdated": "2026-09-03T09:22:50.272Z"
+    },
+    {
+      "id": "facebook-social-login",
+      "name": "Facebook Social Login",
+      "description": "Accounts created via Facebook sign-in that may not have a local password.",
+      "module": "Authentication",
+      "addedOn": "2026-09-02T10:09:14.426Z",
+      "lastUpdated": "2026-09-03T09:22:50.272Z"
+    },
+    {
+      "id": "reward-suppression",
+      "name": "Shoppix.me Reward Suppression",
+      "description": "Prevents the legacy 50-token reward from being granted when the Shoppix.me email is assigned during registration.",
+      "module": "Morpheus.Profile",
+      "addedOn": "2026-09-02T10:18:50.304Z"
+    },
+    {
+      "id": "token-history",
+      "name": "Token History",
+      "description": "Screen showing token credits and running balances for the user.",
+      "module": "Morpheus.Profile",
+      "addedOn": "2026-09-02T10:18:50.304Z"
+    },
+    {
+      "id": "reward-notification-suppression",
+      "name": "Reward Notification Suppression",
+      "description": "Ensures no reward-related notification is generated for the removed 50-token incentive.",
+      "module": "Morpheus.Profile",
+      "addedOn": "2026-09-02T10:18:50.304Z"
+    },
+    {
+      "id": "account-state-endpoint",
+      "name": "Account State Endpoint",
+      "description": "Returns the current lifecycle state of the account and reflects deactivation/deletion.",
+      "module": "Morpheus.Profile",
+      "addedOn": "2026-09-03T09:22:50.272Z"
+    },
+    {
+      "id": "account-deletion-service-bus",
+      "name": "Account Deletion Service Bus",
+      "description": "Service bus flow that propagates account deletion to downstream consumers.",
+      "module": "Morpheus.Profile",
+      "addedOn": "2026-09-03T09:22:50.272Z"
+    },
+    {
+      "id": "survey-launch-button-gating",
+      "name": "Survey Launch Button Gating",
+      "description": "Controls when the Launch button is enabled for surveys based on survey status.",
+      "module": "Manage Shoppix Surveys",
+      "addedOn": "2026-09-08T08:26:27.892Z",
+      "lastUpdated": "2026-09-08T08:36:20.255Z"
+    },
+    {
+      "id": "survey-creation-flow",
+      "name": "Survey Creation Flow",
+      "description": "Adds a survey from the Manage Shoppix survey list using a Tivian survey ID, token value, and expiry date/time.",
+      "module": "Manage Shoppix Surveys",
+      "addedOn": "2026-09-08T08:36:20.255Z"
+    },
+    {
+      "id": "survey-refresh-users",
+      "name": "Survey Refresh Users",
+      "description": "Refreshes survey users before launch so the survey can be reflected correctly in the app.",
+      "module": "Manage Shoppix Surveys",
+      "addedOn": "2026-09-08T08:36:20.255Z"
+    },
+    {
+      "id": "survey-app-reflection",
+      "name": "Survey Reflection in App",
+      "description": "Makes the launched survey visible in the Shoppix app after a successful launch.",
+      "module": "Manage Shoppix Surveys",
+      "addedOn": "2026-09-08T08:36:20.255Z"
+    },
+    {
+      "id": "notification-bell-icon",
+      "name": "Notification Bell Icon",
+      "description": "Notification card layout and states observed from Shoppix app video: read/unread visual states, CTA color mapping, category icons, deep-link targets, timestamps.",
+      "module": "Notifications",
+      "addedOn": "2026-09-21T05:03:34.136Z",
+      "lastUpdated": "2026-09-21T05:57:27.041Z"
     }
   ]
 }

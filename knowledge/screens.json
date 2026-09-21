@@ -14,6 +14,217 @@
         "isApplePrivateEmail"
       ],
       "lastUpdated": "2026-09-01T11:56:39.830Z"
+    },
+    {
+      "id": "my-vouchers-list-screen",
+      "name": "My Vouchers List",
+      "description": "Screen listing redeemed vouchers.",
+      "elements": [
+        "voucher cards",
+        "brand name",
+        "voucher amount",
+        "redemption date",
+        "chevron",
+        "bottom navigation"
+      ],
+      "addedOn": "2026-09-01T12:11:02.087Z"
+    },
+    {
+      "id": "voucher-detail-screen",
+      "name": "Voucher Detail Screen",
+      "description": "Voucher detail destination reached from 'View voucher' CTA — brand, amount, order reference with copy icon, redemption date, Go to my voucher button.",
+      "elements": [
+        "brand name",
+        "voucher amount",
+        "Go to my voucher button",
+        "order reference",
+        "copy icon",
+        "redemption date",
+        "information text"
+      ],
+      "addedOn": "2026-09-01T12:11:02.087Z",
+      "lastUpdated": "2026-09-21T05:57:27.044Z"
+    },
+    {
+      "id": "voucher-redeem-screen",
+      "name": "Voucher Redeem Experience",
+      "description": "Destination reached from the Go to my voucher action.",
+      "elements": [
+        "voucher action button",
+        "voucher code or redemption flow"
+      ],
+      "addedOn": "2026-09-01T12:11:02.087Z"
+    },
+    {
+      "id": "notification-center",
+      "name": "Notification Centre",
+      "description": "Notification Centre with card list showing category icon, title with emoji, body, timestamp (date or relative), and colored CTA button.",
+      "elements": [
+        "notification card",
+        "category icon",
+        "red dot unread indicator",
+        "teal card border",
+        "title",
+        "body",
+        "timestamp",
+        "CTA button (yellow or dark blue)"
+      ],
+      "addedOn": "2026-09-01T14:04:54.600Z",
+      "lastUpdated": "2026-09-21T05:57:27.044Z"
+    },
+    {
+      "id": "notification-detail",
+      "name": "Notification Detail",
+      "description": "Individual notification view with full message and CTA.",
+      "elements": [
+        "notification title",
+        "notification body",
+        "dynamic variables",
+        "CTA button"
+      ],
+      "addedOn": "2026-09-01T14:04:54.600Z"
+    },
+    {
+      "id": "scratch-card-screen",
+      "name": "Scratch Card Screen",
+      "description": "Scratch card screen navigated from SCRATCHCARD_AWARDED CTA.",
+      "elements": [
+        "scratch card",
+        "scratch animation"
+      ],
+      "addedOn": "2026-09-01T14:17:57.209Z"
+    },
+    {
+      "id": "survey-screen",
+      "name": "Survey Screen",
+      "description": "Survey screen navigated from survey notification CTAs.",
+      "elements": [
+        "survey list",
+        "survey start"
+      ],
+      "addedOn": "2026-09-01T14:17:57.209Z"
+    },
+    {
+      "id": "e-receipt-forwarding",
+      "name": "E-receipt Forwarding Page",
+      "description": "E-receipt forwarding page for forwarding email receipts.",
+      "elements": [
+        "forwarding email address",
+        "instructions"
+      ],
+      "addedOn": "2026-09-01T14:17:57.209Z"
+    },
+    {
+      "id": "transaction-page",
+      "name": "Transaction Page",
+      "description": "Transaction page showing token balance and history.",
+      "elements": [
+        "token balance",
+        "transaction list"
+      ],
+      "addedOn": "2026-09-01T14:17:57.209Z"
+    },
+    {
+      "id": "account-management-screen",
+      "name": "Account Management Screen",
+      "description": "Screen where the user can trigger deactivation or deletion of their account.",
+      "elements": [
+        "deactivate account option",
+        "delete account option",
+        "confirmation dialog",
+        "cancel button",
+        "confirm button",
+        "destructive action warning"
+      ],
+      "addedOn": "2026-09-02T10:09:14.427Z",
+      "lastUpdated": "2026-09-03T09:22:50.273Z"
+    },
+    {
+      "id": "token-history-screen",
+      "name": "Token History Screen",
+      "description": "Displays the user's balance and reward transactions.",
+      "elements": [
+        "balance banner",
+        "transaction rows",
+        "reward labels",
+        "running token balance"
+      ],
+      "addedOn": "2026-09-02T10:18:50.304Z"
+    },
+    {
+      "id": "manage-shoppix-survey-screen",
+      "name": "Manage Shoppix Survey Screen",
+      "description": "Survey management view where the Launch button is shown alongside survey status and actions.",
+      "elements": [
+        "survey status",
+        "Launch button",
+        "survey details",
+        "action area"
+      ],
+      "addedOn": "2026-09-08T08:26:27.893Z"
+    },
+    {
+      "id": "manage-shoppix-survey-list",
+      "name": "Manage Shoppix Survey List",
+      "description": "Main survey list page with Refresh Surveys, Add Survey, Refresh Users, and Launch Survey actions.",
+      "elements": [
+        "survey table",
+        "Refresh Surveys button",
+        "Add Survey button",
+        "Refresh Users button",
+        "Launch Survey button",
+        "status column"
+      ],
+      "addedOn": "2026-09-08T08:36:20.256Z"
+    },
+    {
+      "id": "add-survey-modal",
+      "name": "Add Survey Modal",
+      "description": "Dialog used to create a new survey and validate Tivian survey ID details.",
+      "elements": [
+        "Tivian survey ID field",
+        "Validate button",
+        "survey in-app name",
+        "survey internal name",
+        "token field",
+        "expiry date/time field",
+        "Save button",
+        "Cancel button"
+      ],
+      "addedOn": "2026-09-08T08:36:20.256Z"
+    },
+    {
+      "id": "shoppix-app-survey-area",
+      "name": "Shoppix App Survey Area",
+      "description": "App surface where launched surveys become visible to the user after the backend refresh and launch flow completes.",
+      "elements": [
+        "survey list",
+        "survey availability state"
+      ],
+      "addedOn": "2026-09-08T08:36:20.256Z"
+    },
+    {
+      "id": "app-header-bell",
+      "name": "App Header Bell Icon",
+      "description": "App header component containing the notification bell icon and unread badge.",
+      "elements": [
+        "bell icon",
+        "unread badge",
+        "header container"
+      ],
+      "addedOn": "2026-09-21T05:03:34.138Z"
+    },
+    {
+      "id": "os-notification-tray",
+      "name": "OS Notification Tray (Shoppix)",
+      "description": "Scratchcard notification via OS tray with Shoppix branding.",
+      "elements": [
+        "scratchcard notification title",
+        "body text",
+        "timestamp",
+        "app icon"
+      ],
+      "addedOn": "2026-09-21T05:57:27.044Z"
     }
   ]
 }

@@ -17,6 +17,137 @@
       ],
       "processedOn": "2026-09-01T11:56:39.831Z",
       "lastUpdated": "2026-09-01T11:56:39.831Z"
+    },
+    {
+      "id": "211706",
+      "ticketId": 211706,
+      "title": "Android Rewards Migration: My Vouchers || UI Design and API Integration",
+      "url": "https://dev.azure.com/worldpanelbynumerator/KT-DataCollection/_workitems/edit/211706",
+      "type": "Product Backlog Item",
+      "summary": "My Vouchers migration for the rewards module in Jetpack Compose. The ticket introduces a voucher list screen plus voucher detail screens for PayPal and Amazon.co.uk, with data binding for voucher amount, redemption date, registered Shoppix email, order reference copying, and a Go to my voucher CTA on applicable vouchers.",
+      "testCaseCount": 13,
+      "coveredAreas": [
+        "my-vouchers-ui",
+        "voucher-listing",
+        "voucher-detail",
+        "voucher-redeem-cta",
+        "voucher-reference-copy"
+      ],
+      "processedOn": "2026-09-01T12:11:02.084Z",
+      "addedOn": "2026-09-01T12:11:02.085Z"
+    },
+    {
+      "id": "64995",
+      "ticketId": 64995,
+      "title": "Improve Notification Messaging to Increase User Understanding, Compliance, and Retention",
+      "url": "https://dev.azure.com/worldpanelbynumerator/KT-DataCollection/_workitems/edit/64995",
+      "type": "Feature",
+      "summary": "Comprehensive redesign of 26+ notification types across Compliance, Duplicate Receipt, E-receipt, Rewards, Scratchcard, Survey, and Account categories. Changes include new user-centric wording with emojis, dynamic variables ({tokens}, {days}, {email}, {minutes}, {X}, {0}, {1}), updated CTA buttons (Snap now, Learn more, Forward my receipt, Scratch now, Start now, See your balance, View voucher, View details, Learn how), new/changed deep links, updated placement (Lock Screen added for many), removed impossible CTAs for receipts never created, and category-specific icon system. Backend changes span Morpheus.Messaging, Receipt service, Survey service, and Notification service.\"",
+      "testCaseCount": 102,
+      "coveredAreas": [
+        "notification-messaging",
+        "notification-icons",
+        "notification-deep-links",
+        "notification-empty-state",
+        "notification-error-state",
+        "push-notification-config",
+        "compliance-notifications",
+        "duplicate-receipt-notifications",
+        "e-receipt-notifications",
+        "reward-notifications",
+        "scratchcard-notifications",
+        "survey-notifications",
+        "receipt-challenge-notifications"
+      ],
+      "processedOn": "2026-09-01T14:17:57.207Z",
+      "addedOn": "2026-09-01T14:04:54.599Z",
+      "lastUpdated": "2026-09-01T14:17:57.207Z"
+    },
+    {
+      "id": "212553",
+      "ticketId": 212553,
+      "title": "Android: Account Deactivation and Deletion Issue",
+      "url": "https://dev.azure.com/worldpanelbynumerator/KT-DataCollection/_workitems/edit/212553",
+      "type": "Bug",
+      "summary": "Facebook-created Shoppix accounts must support both account deactivation and deletion. Coverage includes success flows, no-local-password path, account_state propagation, downstream service bus cleanup, network resilience, idempotency, cross-device propagation after deletion, and accessibility of the confirmation dialogs.",
+      "testCaseCount": 16,
+      "coveredAreas": [
+        "account-deactivation",
+        "account-deletion",
+        "facebook-social-login",
+        "account-state-endpoint",
+        "account-deletion-service-bus"
+      ],
+      "processedOn": "2026-09-03T09:22:50.270Z",
+      "addedOn": "2026-09-02T10:09:14.424Z",
+      "lastUpdated": "2026-09-03T09:22:50.271Z"
+    },
+    {
+      "id": "211579",
+      "ticketId": 211579,
+      "title": "Remove 50 tokens for choosing Shoppix.me email address",
+      "url": "https://dev.azure.com/worldpanelbynumerator/KT-DataCollection/_workitems/edit/211579",
+      "type": "Product Backlog Item",
+      "summary": "Mandatory Shoppix.me email assignment should no longer grant the legacy 50-token reward. The ticket focuses on suppressing the reward during registration, ensuring no balance bump, no transaction entry, and no reward notification while keeping unrelated rewards intact.",
+      "testCaseCount": 13,
+      "coveredAreas": [
+        "reward-suppression",
+        "token-history",
+        "reward-notification-suppression"
+      ],
+      "processedOn": "2026-09-02T10:18:50.303Z",
+      "addedOn": "2026-09-02T10:18:50.303Z"
+    },
+    {
+      "id": "210626",
+      "ticketId": 210626,
+      "title": "SHOPPIX-55 - Disable Launch button for Surveys",
+      "url": "https://dev.azure.com/worldpanelbynumerator/KT-DataCollection/_workitems/edit/210626",
+      "type": "Product Backlog Item",
+      "summary": "Expanded Manage Shoppix survey lifecycle coverage based on the screenshot: add survey, validate a unique Tivian survey ID, enter tokens and expiry date/time, refresh surveys, refresh users, launch survey, and confirm the survey appears in the Shoppix app. The original Launch button gating rule still applies: enable only for Created and UserListRefreshed.",
+      "testCaseCount": 16,
+      "coveredAreas": [
+        "survey-launch-button-gating",
+        "survey-creation-flow",
+        "survey-refresh-users",
+        "survey-app-reflection"
+      ],
+      "processedOn": "2026-09-08T08:36:20.255Z",
+      "addedOn": "2026-09-08T08:26:27.891Z",
+      "lastUpdated": "2026-09-08T08:36:20.255Z"
+    },
+    {
+      "id": "0",
+      "ticketId": 0,
+      "title": "Notification Bell Icon Coverage (ad-hoc)",
+      "url": "n/a",
+      "type": "Ad-hoc Coverage",
+      "summary": "Standalone coverage for the notification bell icon in the Shoppix app header: visibility for logged-in users, unread badge behavior, tap navigation to the Notification Centre, empty and error state handling, offline behavior, accessibility, visual rendering, and regression around deep-link entries.",
+      "testCaseCount": 19,
+      "coveredAreas": [
+        "notification-bell-icon"
+      ],
+      "processedOn": "2026-09-21T05:03:34.121Z",
+      "addedOn": "2026-09-21T05:03:34.133Z"
+    },
+    {
+      "id": "208152",
+      "ticketId": 208152,
+      "title": "Changes for notifications",
+      "url": "https://dev.azure.com/worldpanelbynumerator/KT-DataCollection/_workitems/edit/208152",
+      "type": "Product Backlog Item",
+      "summary": "Video-derived observations for the Shoppix bell icon and Notification Centre: unread cards use a teal border with a red dot on the icon; CTA colors follow a type-based mapping (scratch = yellow, other actions = dark blue); category icons observed for scratchcard/survey/voucher/retailer-linking/active-submission; timestamps show DD/MM/YYYY for recent and relative time for older; deep-link CTAs confirmed for survey (Tivian), voucher detail (B&Q £5), and scratch flow with home scratchcard count increment; empty/error state is a single centered refresh icon; bottom nav hidden on Notification Centre; grammar defect noted for '1 minutes'.",
+      "testCaseCount": 19,
+      "coveredAreas": [
+        "notification-bell-icon",
+        "notification-messaging",
+        "notification-icons",
+        "notification-deep-links",
+        "notification-empty-state"
+      ],
+      "processedOn": "2026-09-21T05:57:27.034Z",
+      "addedOn": "2026-09-21T05:18:37.300Z",
+      "lastUpdated": "2026-09-21T05:57:27.034Z"
     }
   ]
 }

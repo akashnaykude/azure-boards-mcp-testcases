@@ -42,6 +42,391 @@
       "rule": "createuserprofile service bus message is only sent if AppUser was successfully persisted (DoesAppUserIdExist check).",
       "feature": "service-bus-messaging",
       "lastUpdated": "2026-09-01T11:56:39.831Z"
+    },
+    {
+      "id": "voucher-list-row-navigation",
+      "rule": "Selecting a voucher row opens the matching voucher detail page.",
+      "feature": "voucher-listing",
+      "addedOn": "2026-09-01T12:11:02.088Z"
+    },
+    {
+      "id": "voucher-ordering-descending",
+      "rule": "Voucher list should present redeemed vouchers in a consistent order based on redemption date, newest first.",
+      "feature": "voucher-listing",
+      "addedOn": "2026-09-01T12:11:02.088Z"
+    },
+    {
+      "id": "voucher-details-email",
+      "rule": "Voucher details must show the registered Shoppix email address associated with the reward.",
+      "feature": "voucher-detail",
+      "addedOn": "2026-09-01T12:11:02.088Z"
+    },
+    {
+      "id": "voucher-copy-reference",
+      "rule": "The copy icon must copy the displayed order reference value.",
+      "feature": "voucher-reference-copy",
+      "addedOn": "2026-09-01T12:11:02.088Z"
+    },
+    {
+      "id": "voucher-cta-conditional",
+      "rule": "Go to my voucher is shown only for vouchers that support direct voucher access, such as Amazon.co.uk in the screenshots.",
+      "feature": "voucher-redeem-cta",
+      "addedOn": "2026-09-01T12:11:02.088Z"
+    },
+    {
+      "id": "voucher-list-failure-handling",
+      "rule": "If the vouchers API fails, the screen should fail gracefully and allow recovery or retry.",
+      "feature": "my-vouchers-ui",
+      "addedOn": "2026-09-01T12:11:02.088Z"
+    },
+    {
+      "id": "notification-icon-mapping",
+      "rule": "Notifications must use category-specific icons: Shelf=notifications_shelf, Referrals=notifications_referral, Reminder=notifications_reminder, Warning=notifications_warning, Voucher=notifications_voucher.",
+      "feature": "notification-messaging",
+      "addedOn": "2026-09-01T14:04:54.601Z",
+      "lastUpdated": "2026-09-01T14:17:57.209Z"
+    },
+    {
+      "id": "notification-cta-column-n",
+      "rule": "CTA button title is sourced from Column N (CTA) in the notification configuration spreadsheet.",
+      "feature": "notification-messaging",
+      "addedOn": "2026-09-01T14:04:54.601Z",
+      "lastUpdated": "2026-09-01T14:17:57.209Z"
+    },
+    {
+      "id": "notification-variable-interpolation",
+      "rule": "Dynamic variables in notification text must be replaced with actual user-specific values at delivery time.",
+      "feature": "notification-messaging",
+      "addedOn": "2026-09-01T14:04:54.601Z",
+      "lastUpdated": "2026-09-01T14:17:57.209Z"
+    },
+    {
+      "id": "notification-empty-state-display",
+      "rule": "When user has no notifications, show a dedicated empty state UI instead of a blank screen.",
+      "feature": "notification-empty-state",
+      "addedOn": "2026-09-01T14:04:54.601Z"
+    },
+    {
+      "id": "notification-error-state-retry",
+      "rule": "When notification loading fails, show an error state UI with a retry option.",
+      "feature": "notification-error-state",
+      "addedOn": "2026-09-01T14:04:54.601Z"
+    },
+    {
+      "id": "new-surveys-no-minutes",
+      "rule": "NEW_SURVEYS_AVAILABLE must use 'a few minutes' instead of {minutes} variable because survey teams don't fill in duration data reliably.",
+      "feature": "notification-messaging",
+      "addedOn": "2026-09-01T14:17:57.209Z"
+    },
+    {
+      "id": "receipt-mismatch-no-cta",
+      "rule": "RECEIPT_MISMATCH_WITH_ANOTHERUSER and MULTIPLE_RECEIPT_MATCH must have no CTA because receipt is never created.",
+      "feature": "notification-messaging",
+      "addedOn": "2026-09-01T14:17:57.209Z"
+    },
+    {
+      "id": "duplicate-receipt-cta-learn-more",
+      "rule": "DUPLICATE_RECEIPT_REMINDER CTA changes from 'See Receipt' to 'Learn More' with Help Centre navigation.",
+      "feature": "notification-messaging",
+      "addedOn": "2026-09-01T14:17:57.209Z"
+    },
+    {
+      "id": "unrecognised-cta-removed",
+      "rule": "ACTIVESUBMISSONREMINDER_UNRECOGNISED CTA 'View details' is removed and navigation changes to GENERAL_REMINDER_REFERRALS.",
+      "feature": "notification-messaging",
+      "addedOn": "2026-09-01T14:17:57.209Z"
+    },
+    {
+      "id": "ereceipt-approved-rc-see-receipt",
+      "rule": "Per RC review: ERECEIPT_APPROVED_AFTER_REWORK and RECEIPT_CHALLENGE_APPROVED CTAs should be 'See receipt' navigating to the approved receipt.",
+      "feature": "notification-messaging",
+      "addedOn": "2026-09-01T14:17:57.209Z"
+    },
+    {
+      "id": "time-limit-lock-screen-added",
+      "rule": "TIME_LIMIT_EXCEED_REMINDER, VALID_RECEIPT_REMINDER, and SCRATCHCARD_AWARDED gain Lock Screen placement.",
+      "feature": "notification-messaging",
+      "addedOn": "2026-09-01T14:17:57.209Z"
+    },
+    {
+      "id": "two-weeks-trigger-logic",
+      "rule": "TWO_WEEKS_INACTIVITY_WARNING triggers weekly at 5 PM UTC Thursday for live users with no receipt in 14 days but receipt in last 90 days.",
+      "feature": "notification-messaging",
+      "addedOn": "2026-09-01T14:17:57.209Z"
+    },
+    {
+      "id": "weekly-trigger-logic",
+      "rule": "WEEKLY_INACTIVITY_WARNING triggers at 5 PM UTC Sunday for users with approved receipt in 14 days but not in 7 days.",
+      "feature": "notification-messaging",
+      "addedOn": "2026-09-01T14:17:57.209Z"
+    },
+    {
+      "id": "survey-final-reminder-3pm",
+      "rule": "FINAL_SURVEY_COMPLETION_REMINDER triggers daily at 3 PM UTC for surveys expiring within 1 day.",
+      "feature": "notification-messaging",
+      "addedOn": "2026-09-01T14:17:57.209Z"
+    },
+    {
+      "id": "survey-completion-reminder-330pm",
+      "rule": "SURVEY_COMPLETION_REMINDER triggers daily at 3:30 PM UTC for surveys expiring within 3 days.",
+      "feature": "notification-messaging",
+      "addedOn": "2026-09-01T14:17:57.209Z"
+    },
+    {
+      "id": "active-engagement-1st-month",
+      "rule": "ACTIVE_ENGAGEMENT_NOTIFICATION triggers 1st of every month at 10 AM UTC for users with approved forwarded e-receipts last month.",
+      "feature": "notification-messaging",
+      "addedOn": "2026-09-01T14:17:57.209Z"
+    },
+    {
+      "id": "facebook-account-lifecycle",
+      "rule": "Accounts created with Facebook sign-in must support both deactivation and deletion flows.",
+      "feature": "account-deletion",
+      "addedOn": "2026-09-02T10:09:14.428Z",
+      "lastUpdated": "2026-09-03T09:22:50.274Z"
+    },
+    {
+      "id": "no-local-password-block",
+      "rule": "The absence of a local password must not block account deactivation or deletion for Facebook-created accounts.",
+      "feature": "facebook-social-login",
+      "addedOn": "2026-09-02T10:09:14.428Z",
+      "lastUpdated": "2026-09-03T09:22:50.274Z"
+    },
+    {
+      "id": "idempotent-account-action",
+      "rule": "Repeated deactivation or deletion actions must be handled gracefully without crashing or corrupting state.",
+      "feature": "account-deactivation",
+      "addedOn": "2026-09-02T10:09:14.428Z",
+      "lastUpdated": "2026-09-03T09:22:50.274Z"
+    },
+    {
+      "id": "deletion-disables-login",
+      "rule": "A deleted account must not be usable for subsequent sign-in or return an active profile on any device.",
+      "feature": "account-deletion",
+      "addedOn": "2026-09-02T10:09:14.428Z",
+      "lastUpdated": "2026-09-03T09:22:50.274Z"
+    },
+    {
+      "id": "no-50-token-reward",
+      "rule": "Automatic assignment of a Shoppix.me email must not grant a 50-token reward.",
+      "feature": "reward-suppression",
+      "addedOn": "2026-09-02T10:18:50.305Z"
+    },
+    {
+      "id": "no-balance-bump",
+      "rule": "The user's token balance must not increase by 50 tokens because of Shoppix.me email assignment.",
+      "feature": "reward-suppression",
+      "addedOn": "2026-09-02T10:18:50.305Z"
+    },
+    {
+      "id": "no-reward-history-entry",
+      "rule": "No transaction history entry should be created for the removed 50-token reward.",
+      "feature": "reward-suppression",
+      "addedOn": "2026-09-02T10:18:50.305Z"
+    },
+    {
+      "id": "no-reward-notification",
+      "rule": "No push, in-app, email, or similar reward notification should be generated for the removed reward.",
+      "feature": "reward-notification-suppression",
+      "addedOn": "2026-09-02T10:18:50.305Z"
+    },
+    {
+      "id": "other-rewards-unaffected",
+      "rule": "Other eligible reward flows must continue to work normally.",
+      "feature": "reward-suppression",
+      "addedOn": "2026-09-02T10:18:50.305Z"
+    },
+    {
+      "id": "confirmation-path-no-password-fallback",
+      "rule": "For social-login users, the deactivate/delete confirmation must not fall back to a password-only identity check.",
+      "feature": "account-deactivation",
+      "addedOn": "2026-09-03T09:22:50.274Z"
+    },
+    {
+      "id": "deletion-service-bus-cleanup",
+      "rule": "Account deletion must dispatch its downstream service bus message cleanly without leaving items in the dead-letter queue.",
+      "feature": "account-deletion",
+      "addedOn": "2026-09-03T09:22:50.274Z"
+    },
+    {
+      "id": "network-resilience",
+      "rule": "Deactivate/delete actions must not leave the account in a half-completed state if the network drops mid-request.",
+      "feature": "account-deactivation",
+      "addedOn": "2026-09-03T09:22:50.274Z"
+    },
+    {
+      "id": "survey-launch-enabled-statuses",
+      "rule": "The Launch button is enabled only when survey status is Created or UserListRefreshed.",
+      "feature": "survey-launch-button-gating",
+      "addedOn": "2026-09-08T08:26:27.894Z"
+    },
+    {
+      "id": "survey-launch-disabled-statuses",
+      "rule": "The Launch button is disabled for every other survey status, including terminal or in-progress states.",
+      "feature": "survey-launch-button-gating",
+      "addedOn": "2026-09-08T08:26:27.894Z"
+    },
+    {
+      "id": "launch-scope-exclusion-token-regeneration",
+      "rule": "Token regeneration for already logged-in users is not part of this ticket's scope.",
+      "feature": "survey-launch-button-gating",
+      "addedOn": "2026-09-08T08:26:27.894Z"
+    },
+    {
+      "id": "tivian-survey-id-must-be-unique",
+      "rule": "Survey creation requires a unique Tivian survey ID; duplicates must be rejected.",
+      "feature": "survey-creation-flow",
+      "addedOn": "2026-09-08T08:36:20.257Z"
+    },
+    {
+      "id": "tivian-survey-id-must-be-valid",
+      "rule": "The Tivian survey ID must pass validation before survey details can be saved.",
+      "feature": "survey-creation-flow",
+      "addedOn": "2026-09-08T08:36:20.257Z"
+    },
+    {
+      "id": "token-and-expiry-required",
+      "rule": "Token value and expiry date/time are required inputs for creating a survey.",
+      "feature": "survey-creation-flow",
+      "addedOn": "2026-09-08T08:36:20.257Z"
+    },
+    {
+      "id": "refresh-surveys-before-launch",
+      "rule": "The survey should be refreshed before launch so the latest survey data is available.",
+      "feature": "survey-launch-button-gating",
+      "addedOn": "2026-09-08T08:36:20.257Z"
+    },
+    {
+      "id": "refresh-users-before-launch",
+      "rule": "Users should be refreshed before launching the survey so the app receives the updated survey audience.",
+      "feature": "survey-refresh-users",
+      "addedOn": "2026-09-08T08:36:20.257Z"
+    },
+    {
+      "id": "launch-only-for-created-or-userlistrefreshed",
+      "rule": "The Launch Survey button is enabled only when the survey status is Created or UserListRefreshed.",
+      "feature": "survey-launch-button-gating",
+      "addedOn": "2026-09-08T08:36:20.257Z"
+    },
+    {
+      "id": "launched-survey-reflects-in-app",
+      "rule": "After successful launch, the survey must be reflected in the Shoppix app.",
+      "feature": "survey-app-reflection",
+      "addedOn": "2026-09-08T08:36:20.257Z"
+    },
+    {
+      "id": "token-regeneration-out-of-scope",
+      "rule": "Token regeneration for already-logged-in users is not part of this ticket.",
+      "feature": "survey-launch-button-gating",
+      "addedOn": "2026-09-08T08:36:20.257Z"
+    },
+    {
+      "id": "bell-icon-visible-when-logged-in",
+      "rule": "The bell icon is visible in the app header for logged-in users on screens where it is defined.",
+      "feature": "notification-bell-icon",
+      "addedOn": "2026-09-21T05:03:34.140Z"
+    },
+    {
+      "id": "bell-icon-badge-reflects-unread",
+      "rule": "The bell icon badge reflects the current unread notification count.",
+      "feature": "notification-bell-icon",
+      "addedOn": "2026-09-21T05:03:34.140Z"
+    },
+    {
+      "id": "bell-icon-badge-clears-on-read",
+      "rule": "Reading unread notifications must clear or decrement the bell icon badge.",
+      "feature": "notification-bell-icon",
+      "addedOn": "2026-09-21T05:03:34.140Z"
+    },
+    {
+      "id": "bell-icon-opens-notification-centre",
+      "rule": "Tapping the bell icon opens the Notification Centre screen.",
+      "feature": "notification-bell-icon",
+      "addedOn": "2026-09-21T05:03:34.140Z"
+    },
+    {
+      "id": "bell-icon-badge-max-display",
+      "rule": "Unread counts above the display limit are shown as a capped indicator such as 99+.",
+      "feature": "notification-bell-icon",
+      "addedOn": "2026-09-21T05:03:34.140Z"
+    },
+    {
+      "id": "bell-badge-persists-across-relaunch",
+      "rule": "Bell icon unread badge count must persist across app kill and relaunch.",
+      "feature": "notification-bell-icon",
+      "addedOn": "2026-09-21T05:18:37.306Z"
+    },
+    {
+      "id": "bell-badge-updates-from-background-push",
+      "rule": "Push notifications received while the app is in background must update the bell icon unread badge on next foreground.",
+      "feature": "notification-bell-icon",
+      "addedOn": "2026-09-21T05:18:37.306Z"
+    },
+    {
+      "id": "notification-single-tap-marks-read",
+      "rule": "Tapping an individual notification marks only that notification as read and decrements the unread count accordingly.",
+      "feature": "notification-messaging",
+      "addedOn": "2026-09-21T05:18:37.306Z"
+    },
+    {
+      "id": "notification-cards-newest-first",
+      "rule": "Notification cards are ordered newest first by timestamp.",
+      "feature": "notification-messaging",
+      "addedOn": "2026-09-21T05:18:37.306Z"
+    },
+    {
+      "id": "notification-cta-hidden-when-none",
+      "rule": "Notification card hides the CTA button when no CTA is configured.",
+      "feature": "notification-messaging",
+      "addedOn": "2026-09-21T05:18:37.306Z"
+    },
+    {
+      "id": "notification-fallback-icon",
+      "rule": "Notification card uses a safe fallback icon when the category is unmapped.",
+      "feature": "notification-messaging",
+      "addedOn": "2026-09-21T05:18:37.306Z"
+    },
+    {
+      "id": "unread-card-teal-border",
+      "rule": "Unread notification cards display a teal border around the card and a red dot on the top-right of the category icon.",
+      "feature": "notification-bell-icon",
+      "addedOn": "2026-09-21T05:57:27.047Z"
+    },
+    {
+      "id": "cta-color-mapping",
+      "rule": "Scratch-related CTAs use yellow buttons; standard action CTAs (Start now, View voucher) use dark blue.",
+      "feature": "notification-messaging",
+      "addedOn": "2026-09-21T05:57:27.047Z"
+    },
+    {
+      "id": "category-icon-mapping-observed",
+      "rule": "Category icons: scratchcard = yellow gift/ribbon, survey = clipboard, voucher = gift box, retailer linking = chain link, active submission = Shoppix S mark.",
+      "feature": "notification-icons",
+      "addedOn": "2026-09-21T05:57:27.047Z"
+    },
+    {
+      "id": "timestamp-format",
+      "rule": "Recent notifications show DD/MM/YYYY; older ones use relative format like 'X days ago'; OS tray uses 'Just now', 'X minutes ago'.",
+      "feature": "notification-messaging",
+      "addedOn": "2026-09-21T05:57:27.047Z"
+    },
+    {
+      "id": "empty-state-refresh-icon-only",
+      "rule": "Empty/error state on Notification Centre is minimal: a centered refresh icon that reloads when tapped.",
+      "feature": "notification-empty-state",
+      "addedOn": "2026-09-21T05:57:27.047Z"
+    },
+    {
+      "id": "bottom-nav-hidden-on-notifications",
+      "rule": "Bottom app navigation is not shown on the Notification Centre screen.",
+      "feature": "notification-bell-icon",
+      "addedOn": "2026-09-21T05:57:27.047Z"
+    },
+    {
+      "id": "singular-plural-minutes-bug",
+      "rule": "Notification body must use '1 minute' (singular) when duration equals 1; current 'It only takes 1 minutes' is a defect.",
+      "feature": "notification-messaging",
+      "addedOn": "2026-09-21T05:57:27.047Z"
     }
   ]
 }
