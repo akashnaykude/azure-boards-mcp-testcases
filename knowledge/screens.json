@@ -249,6 +249,121 @@
         "'Try again' button"
       ],
       "addedOn": "2026-09-21T06:57:40.138Z"
+    },
+    {
+      "id": "passive-collection-home",
+      "name": "Passive Collection Home",
+      "description": "List of linked mailboxes with per-account status chip, last-scanned date, and overflow menu for disconnect scopes.",
+      "elements": [
+        "provider icon",
+        "email address",
+        "connectionStatus chip",
+        "last scanned date",
+        "overflow menu",
+        "empty state - Link an email"
+      ],
+      "addedOn": "2026-09-24T10:37:58.856Z"
+    },
+    {
+      "id": "passive-collection-provider-picker",
+      "name": "Provider Picker",
+      "description": "Gmail/Yahoo/Outlook tile picker.",
+      "elements": [
+        "Gmail tile",
+        "Yahoo tile",
+        "Outlook tile"
+      ],
+      "addedOn": "2026-09-24T10:37:58.856Z"
+    },
+    {
+      "id": "passive-collection-email-entry",
+      "name": "Email Address Entry",
+      "description": "Address input with inline error mapping to INVALID_EMAIL_ADDRESS / EMAIL_IN_USE / EMAIL_ALREADY_CONNECTED_ON_DEVICE.",
+      "elements": [
+        "address input",
+        "Continue button",
+        "inline error text"
+      ],
+      "addedOn": "2026-09-24T10:37:58.856Z"
+    },
+    {
+      "id": "passive-collection-imap-auth",
+      "name": "On-Device IMAP Auth",
+      "description": "Provider-specific auth (app password or OAuth). Credentials stored only in device secure storage.",
+      "elements": [
+        "auth webview",
+        "success confirmation"
+      ],
+      "addedOn": "2026-09-24T10:37:58.856Z"
+    },
+    {
+      "id": "passive-collection-other-device-prompt",
+      "name": "Connect On This Device Too? Prompt",
+      "description": "Shown when GET /email-accounts returns an entry under otherDevices for the current user.",
+      "elements": [
+        "address label",
+        "provider label",
+        "Confirm CTA",
+        "Cancel CTA"
+      ],
+      "addedOn": "2026-09-24T10:37:58.856Z"
+    },
+    {
+      "id": "passive-collection-scanned-list",
+      "name": "Scanned Emails List",
+      "description": "Per-row Select / Decline actions with pagination footer. scanId hidden field per row.",
+      "elements": [
+        "email subject",
+        "email sender",
+        "received date",
+        "Select checkbox",
+        "Decline action",
+        "pagination footer"
+      ],
+      "addedOn": "2026-09-24T10:37:58.856Z"
+    },
+    {
+      "id": "passive-collection-sync-banner",
+      "name": "Background Sync Banner",
+      "description": "Non-blocking progress chip while background uploader is active.",
+      "elements": [
+        "progress chip",
+        "count text"
+      ],
+      "addedOn": "2026-09-24T10:37:58.856Z"
+    },
+    {
+      "id": "passive-collection-reconnect-banner",
+      "name": "Reconnect Prompt Banner",
+      "description": "Persistent banner shown only for ConnectionFailed connections; not shown for Disconnected.",
+      "elements": [
+        "reconnect banner text",
+        "Reconnect CTA",
+        "push notification tap-through"
+      ],
+      "addedOn": "2026-09-24T10:37:58.856Z"
+    },
+    {
+      "id": "passive-collection-disconnect-dialog",
+      "name": "Disconnect Confirmation Dialog",
+      "description": "Two-scope confirmation: this device only vs everywhere-and-delete.",
+      "elements": [
+        "Disconnect this phone only option",
+        "Disconnect everywhere and delete data option",
+        "warning text"
+      ],
+      "addedOn": "2026-09-24T10:37:58.856Z"
+    },
+    {
+      "id": "waiting-list-registration-screen",
+      "name": "Waiting List Registration Screen",
+      "description": "The registration flow opened by invitation deeplinks.",
+      "elements": [
+        "Invitation link entry",
+        "registration form",
+        "invalid invitation error state"
+      ],
+      "addedOn": "2026-10-01T05:56:28.374Z"
     }
   ]
 }

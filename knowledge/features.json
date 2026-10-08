@@ -206,6 +206,69 @@
       "module": "Notifications",
       "addedOn": "2026-09-21T05:03:34.136Z",
       "lastUpdated": "2026-09-21T05:57:27.041Z"
+    },
+    {
+      "id": "passive-collection",
+      "name": "Passive Collection",
+      "description": "Backend + app contract for connecting IMAP mailboxes, scanning receipt emails, capturing user decisions, and submitting raw MIME to the receipt pipeline via outbox.",
+      "module": "Morpheus.RetailerLinking",
+      "addedOn": "2026-09-24T10:37:58.855Z"
+    },
+    {
+      "id": "passive-collection-connect-flow",
+      "name": "Passive Collection - Connect / Reconnect / Validate",
+      "description": "POST /validate, POST /email-accounts, POST /:id/connection-failure endpoints and reconnect UX rules.",
+      "module": "Morpheus.RetailerLinking",
+      "addedOn": "2026-09-24T10:37:58.855Z"
+    },
+    {
+      "id": "passive-collection-scan",
+      "name": "Passive Collection - Scan Ingestion",
+      "description": "POST /:id/scans, GET /:id/scans endpoints. Bulk metadata insert with dedup by EmailUid and forward-only LastScrapedDateTime.",
+      "module": "Morpheus.RetailerLinking",
+      "addedOn": "2026-09-24T10:37:58.855Z"
+    },
+    {
+      "id": "passive-collection-submission",
+      "name": "Passive Collection - Decisions & Raw Content Submission",
+      "description": "PATCH /:id/scans decisions, PUT /:id/scans/{scanId} raw content submission, blob storage layout, and outbox handoff.",
+      "module": "Morpheus.RetailerLinking",
+      "addedOn": "2026-09-24T10:37:58.855Z"
+    },
+    {
+      "id": "passive-collection-multi-device",
+      "name": "Passive Collection - Multi-device Behaviour",
+      "description": "Adding a mailbox to a second device, resuming pending uploads on a new device, dedup and 409 handling across devices.",
+      "module": "Morpheus.RetailerLinking",
+      "addedOn": "2026-09-24T10:37:58.855Z"
+    },
+    {
+      "id": "passive-collection-account-cleanup",
+      "name": "Passive Collection - Account Deletion / Dropout",
+      "description": "DELETE /:id?scope=device|all and useraccountstatusupdated topic subscriber that anonymises accounts, deletes scan logs, and deletes blob container.",
+      "module": "Morpheus.RetailerLinking",
+      "addedOn": "2026-09-24T10:37:58.855Z"
+    },
+    {
+      "id": "receipt-transcription-overflow",
+      "name": "Receipt Transcription Overflow Handling",
+      "description": "transcriptioncomplete queue handling that nullifies over-length string fields and truncates over-precision decimals so receipts persist instead of failing on DB constraints; also removes unused contract fields.",
+      "module": "Morpheus.Receipt / Morpheus.Messaging",
+      "addedOn": "2026-09-29T08:17:58.905Z"
+    },
+    {
+      "id": "waiting-list-deeplink-routing",
+      "name": "Waiting List Deeplink Routing",
+      "description": "Waiting-list registration links should open the app flow from the invitation URL.",
+      "module": "Waiting List",
+      "addedOn": "2026-10-01T05:56:28.374Z"
+    },
+    {
+      "id": "waiting-list-invite-validation",
+      "name": "Waiting List Invitation Validation",
+      "description": "Invitation GUIDs embedded in deep links must be parsed and validated without accepting malformed tokens.",
+      "module": "Waiting List",
+      "addedOn": "2026-10-01T05:56:28.374Z"
     }
   ]
 }

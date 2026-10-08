@@ -463,6 +463,156 @@
       "rule": "Design placeholder strings such as 'Referral title', 'Need to check', or 'No text' must not be shipped to production.",
       "feature": "notification-messaging",
       "addedOn": "2026-09-21T06:57:40.141Z"
+    },
+    {
+      "id": "pc-one-active-user-per-email",
+      "rule": "An email address can be actively linked to only one AppUser at a time — enforced via filtered unique index UX_AppUserEmailAccount_EmailAddress_Active on EmailAddress WHERE IsDeleted=0.",
+      "feature": "passive-collection",
+      "addedOn": "2026-09-24T10:37:58.857Z"
+    },
+    {
+      "id": "pc-credentials-on-device-only",
+      "rule": "IMAP credentials live in device secure storage only. Backend never stores them.",
+      "feature": "passive-collection",
+      "addedOn": "2026-09-24T10:37:58.857Z"
+    },
+    {
+      "id": "pc-multi-device-share-account",
+      "rule": "Same user connecting the same address on multiple devices reuses the same AppUserEmailAccount.Id; each device gets its own AppUserEmailConnection row.",
+      "feature": "passive-collection",
+      "addedOn": "2026-09-24T10:37:58.857Z"
+    },
+    {
+      "id": "pc-dedup-per-account",
+      "rule": "Scan de-duplication uses UNIQUE(AppUserEmailAccountId, EmailUid); already-scanned emails are not re-inserted from other devices.",
+      "feature": "passive-collection",
+      "addedOn": "2026-09-24T10:37:58.857Z"
+    },
+    {
+      "id": "pc-forward-only-scrape-mark",
+      "rule": "LastScrapedDateTime is client-supplied and forward-only. Equal is accepted; earlier returns 400 INVALID_SCRAPE_DATETIME.",
+      "feature": "passive-collection",
+      "addedOn": "2026-09-24T10:37:58.857Z"
+    },
+    {
+      "id": "pc-scrape-from-fallback",
+      "rule": "scrapeFromDateTime = LastScrapedDateTime if set, otherwise UtcNow - PassiveBackscrapeInDays (config app setting, default 7 days).",
+      "feature": "passive-collection",
+      "addedOn": "2026-09-24T10:37:58.857Z"
+    },
+    {
+      "id": "pc-submission-state-machine",
+      "rule": "SubmissionStatus lifecycle: Scanned -> Selected|Declined|Unavailable; Selected -> Submitted|Unavailable; Declined, Submitted, Unavailable are terminal.",
+      "feature": "passive-collection",
+      "addedOn": "2026-09-24T10:37:58.857Z"
+    },
+    {
+      "id": "pc-decline-terminal-no-undo",
+      "rule": "Declined is terminal and cannot be reversed. No undo may be offered.",
+      "feature": "passive-collection",
+      "addedOn": "2026-09-24T10:37:58.857Z"
+    },
+    {
+      "id": "pc-connection-status-semantics",
+      "rule": "Connected/Disconnected/ConnectionFailed/Deleted. Only ConnectionFailed prompts a reconnect. Disconnected (voluntary) must not prompt.",
+      "feature": "passive-collection",
+      "addedOn": "2026-09-24T10:37:58.857Z"
+    },
+    {
+      "id": "pc-blob-per-user-container",
+      "rule": "One Azure blob container per user (named lowercase AppUserId GUID) in the retailer-linking storage account (rl_storage). Blobs keyed by scanId. Reused across all of a user's linked mailboxes.",
+      "feature": "passive-collection",
+      "addedOn": "2026-09-24T10:37:58.857Z"
+    },
+    {
+      "id": "pc-outbox-passivesubmission",
+      "rule": "Successful PUT writes an OutboxMessage with MessageSubject=ProcessPassiveSubmissionAsyncCommand, QueueName=passivesubmission, body containing appUserId, scanId, and blob URL with a 90-day read SAS.",
+      "feature": "passive-collection",
+      "addedOn": "2026-09-24T10:37:58.857Z"
+    },
+    {
+      "id": "pc-device-must-be-connected-to-write",
+      "rule": "Endpoints that write scan metadata, set decisions, or submit content require the current device to hold a Connected connection for the account — else 409 DEVICE_NOT_CONNECTED.",
+      "feature": "passive-collection",
+      "addedOn": "2026-09-24T10:37:58.857Z"
+    },
+    {
+      "id": "pc-anonymisation-flow",
+      "rule": "scope=all and useraccountstatusupdated actionable statuses overwrite EmailAddress with the account's own Id value, set IsDeleted=1, set connections to Deleted, hard-delete scan logs, and hard-delete blob container.",
+      "feature": "passive-collection",
+      "addedOn": "2026-09-24T10:37:58.857Z"
+    },
+    {
+      "id": "pc-doc-bug-scope-all-shared-container",
+      "rule": "DESIGN BUG: DELETE /:id?scope=all currently says to hard-delete the user's blob container, but the container is per-user, so this destroys blobs of the user's OTHER linked mailboxes. Must delete only the account's own blobs.",
+      "feature": "passive-collection",
+      "addedOn": "2026-09-24T10:37:58.857Z"
+    },
+    {
+      "id": "pc-doc-bug-connected-status-mismatch",
+      "rule": "DESIGN BUG: Section 4.3 says EMAIL_ALREADY_CONNECTED_ON_DEVICE returns 409 in processing text but 400 in the response table and section 8 error-code table. Must be reconciled to a single status.",
+      "feature": "passive-collection",
+      "addedOn": "2026-09-24T10:37:58.857Z"
+    },
+    {
+      "id": "null-if-exceeds-max-length",
+      "rule": "In the transcriptioncomplete flow, any string field whose value exceeds its DB max length is saved as NULL instead of failing the receipt.",
+      "feature": "receipt-transcription-overflow",
+      "addedOn": "2026-09-29T08:17:58.906Z"
+    },
+    {
+      "id": "truncate-decimal-places",
+      "rule": "Decimal fields with more than the allowed decimal places are truncated (not rounded): Total/Subtotal/TotalPaid/TotalPrice/UnitPrice = 2 places, Volume = 3 places.",
+      "feature": "receipt-transcription-overflow",
+      "addedOn": "2026-09-29T08:17:58.906Z"
+    },
+    {
+      "id": "length-limit-inclusive",
+      "rule": "The max length is inclusive: value at exactly the limit is saved; value one char over is nullified.",
+      "feature": "receipt-transcription-overflow",
+      "addedOn": "2026-09-29T08:17:58.906Z"
+    },
+    {
+      "id": "receipt-still-processes",
+      "rule": "The receipt must continue to process successfully even when individual fields exceed DB constraints; overflow no longer causes a persistence failure or dead-letter.",
+      "feature": "receipt-transcription-overflow",
+      "addedOn": "2026-09-29T08:17:58.906Z"
+    },
+    {
+      "id": "receipt-field-limits",
+      "rule": "Receipt-level DB limits: ShopName 600, ShopDetails 100, ShopAddress 700, ShopPostcode 25, ShopPhoneNumber 70, ShopVatNumber 125, ShopInternalCode 30, PaymentMethod 250, Currency 10, PaymentCardNumber 250, ReceiptNumber 200, LoyaltyCardNumber 120.",
+      "feature": "receipt-transcription-overflow",
+      "addedOn": "2026-09-29T08:17:58.906Z"
+    },
+    {
+      "id": "line-field-limits",
+      "rule": "Line-level DB limits: Description1 4000, Description2 500, ShopItemCode1 150, Barcode 100, Measure 50, Symbol 100.",
+      "feature": "receipt-transcription-overflow",
+      "addedOn": "2026-09-29T08:17:58.906Z"
+    },
+    {
+      "id": "removed-contract-fields",
+      "rule": "Removed from contract: ReceiptHeader, ReceiptFooter (receipt) and Quantity, ConfidenceScore, ShopItemCode2, ReceiptLineNumber, MultiLine, ReceiptLineMetadata, Currency (line). Messages must still process whether these are present or absent.",
+      "feature": "receipt-transcription-overflow",
+      "addedOn": "2026-09-29T08:17:58.906Z"
+    },
+    {
+      "id": "waiting-list-invite-link-format",
+      "rule": "The production invitation link format is /waiting-list-registration/{countryCode}/{inviteGuid}; the ticket example uses gb.",
+      "feature": "waiting-list-deeplink-routing",
+      "addedOn": "2026-10-01T05:56:28.376Z"
+    },
+    {
+      "id": "waiting-list-query-params-safe",
+      "rule": "Common appended query parameters should not cause the app to surface the 'Please use a valid invitation link' error when the invite GUID itself is valid.",
+      "feature": "waiting-list-deeplink-routing",
+      "addedOn": "2026-10-01T05:56:28.376Z"
+    },
+    {
+      "id": "waiting-list-guid-validation",
+      "rule": "Malformed invitation identifiers must be rejected with the user-friendly invalid-link message instead of a crash or raw exception.",
+      "feature": "waiting-list-invite-validation",
+      "addedOn": "2026-10-01T05:56:28.376Z"
     }
   ]
 }

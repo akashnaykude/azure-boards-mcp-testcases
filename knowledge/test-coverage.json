@@ -286,6 +286,78 @@
       ],
       "lastTestedOn": "2026-09-21T06:57:40.146Z",
       "testCount": 76
+    },
+    {
+      "id": "passive-collection",
+      "ticketIds": [
+        214774
+      ],
+      "lastTestedOn": "2026-09-24T10:37:58.859Z",
+      "testCount": 80
+    },
+    {
+      "id": "passive-collection-connect-flow",
+      "ticketIds": [
+        214774
+      ],
+      "lastTestedOn": "2026-09-24T10:37:58.859Z",
+      "testCount": 80
+    },
+    {
+      "id": "passive-collection-scan",
+      "ticketIds": [
+        214774
+      ],
+      "lastTestedOn": "2026-09-24T10:37:58.859Z",
+      "testCount": 80
+    },
+    {
+      "id": "passive-collection-submission",
+      "ticketIds": [
+        214774
+      ],
+      "lastTestedOn": "2026-09-24T10:37:58.859Z",
+      "testCount": 80
+    },
+    {
+      "id": "passive-collection-multi-device",
+      "ticketIds": [
+        214774
+      ],
+      "lastTestedOn": "2026-09-24T10:37:58.859Z",
+      "testCount": 80
+    },
+    {
+      "id": "passive-collection-account-cleanup",
+      "ticketIds": [
+        214774
+      ],
+      "lastTestedOn": "2026-09-24T10:37:58.859Z",
+      "testCount": 80
+    },
+    {
+      "id": "receipt-transcription-overflow",
+      "ticketIds": [
+        214410
+      ],
+      "lastTestedOn": "2026-09-29T08:17:58.908Z",
+      "testCount": 46
+    },
+    {
+      "id": "waiting-list-deeplink-routing",
+      "ticketIds": [
+        215420
+      ],
+      "lastTestedOn": "2026-10-01T05:56:28.378Z",
+      "testCount": 7
+    },
+    {
+      "id": "waiting-list-invite-validation",
+      "ticketIds": [
+        215420
+      ],
+      "lastTestedOn": "2026-10-01T05:56:28.378Z",
+      "testCount": 7
     }
   ]
 }

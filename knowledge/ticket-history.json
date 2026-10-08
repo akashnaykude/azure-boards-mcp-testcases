@@ -149,6 +149,54 @@
       "processedOn": "2026-09-21T06:57:40.132Z",
       "addedOn": "2026-09-21T05:18:37.300Z",
       "lastUpdated": "2026-09-21T06:57:40.132Z"
+    },
+    {
+      "id": "214774",
+      "ticketId": 214774,
+      "title": "Passive collection Doc",
+      "url": "https://dev.azure.com/worldpanelbynumerator/KT-DataCollection/_workitems/edit/214774",
+      "type": "Product Backlog Item",
+      "summary": "Backend design document (Passive-Collection.pdf, 19 pages) attached to a Product Backlog Item. Defines the Passive Collection feature: connecting IMAP mailboxes (Gmail/Yahoo/Outlook), on-device scanning against reused GET /user/inbox-filters, per-user decisions (Selected/Declined/Unavailable), raw-MIME submission to per-user blob container with 90-day SAS, outbox handoff to the receipt service via passivesubmission queue, multi-device behaviour, and account/dropout cleanup via useraccountstatusupdated topic. Ticket has no description, AC, comments, or PRs — the PDF is the sole source. QA flow document and 80 test cases were generated; document flags 2 CRITICAL doc bugs (per-user blob container is destroyed on single-account scope=all delete; contradictory 400 vs 409 for EMAIL_ALREADY_CONNECTED_ON_DEVICE), 3 HIGH issues (EmailUid semantics vs Message-ID width, concurrent PATCH race, no batch/body size limits), and several MEDIUM/LOW issues.",
+      "testCaseCount": 80,
+      "coveredAreas": [
+        "passive-collection",
+        "passive-collection-connect-flow",
+        "passive-collection-scan",
+        "passive-collection-submission",
+        "passive-collection-multi-device",
+        "passive-collection-account-cleanup"
+      ],
+      "processedOn": "2026-09-24T10:37:58.854Z",
+      "addedOn": "2026-09-24T10:37:58.854Z"
+    },
+    {
+      "id": "214410",
+      "ticketId": 214410,
+      "title": "Handle messages in transcriptioncomplete queue",
+      "url": "https://dev.azure.com/worldpanelbynumerator/KT-DataCollection/_workitems/edit/214410",
+      "type": "Product Backlog Item",
+      "summary": "Tickets 214410 (parent PBL 'Handle messages in transcriptioncomplete queue') and 215238 (Stage Testing Receipt): add per-field DB-constraint handling in the transcriptioncomplete flow. NullIfExceedsMaxLength for string fields and TruncateToDecimalPlaces for decimals (2 places for money fields, 3 for Volume). Receipt must still process on overflow. ReceiptHeader/ReceiptFooter and several line fields removed from the contract (PR 1980). Generated 46 test cases (Functional 32, Edge 5, Integration 5, Regression 4) exported with 4 columns only.",
+      "testCaseCount": 46,
+      "coveredAreas": [
+        "receipt-transcription-overflow"
+      ],
+      "processedOn": "2026-09-29T08:17:58.903Z",
+      "addedOn": "2026-09-29T08:17:58.904Z"
+    },
+    {
+      "id": "215420",
+      "ticketId": 215420,
+      "title": "Waitlist",
+      "url": "https://dev.azure.com/worldpanelbynumerator/KT-DataCollection/_workitems/edit/215420",
+      "type": "Bug",
+      "summary": "Deep-link validation for waiting-list invitation URLs when users report 'Please use a valid invitation link' on valid or appended invite links. Focused on whether the app accepts the standard invitation pattern and common appended URL parts without surfacing the invalid-link error.",
+      "testCaseCount": 7,
+      "coveredAreas": [
+        "waiting-list-deeplink-routing",
+        "waiting-list-invite-validation"
+      ],
+      "processedOn": "2026-10-01T05:56:28.365Z",
+      "addedOn": "2026-10-01T05:56:28.372Z"
     }
   ]
 }

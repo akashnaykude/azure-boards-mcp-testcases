@@ -282,6 +282,114 @@
       "term": "Nulink",
       "definition": "Retailer linking notification category (e.g. M&S account connected/failed).",
       "addedOn": "2026-09-21T06:57:40.144Z"
+    },
+    {
+      "id": "AppUserEmailAccount",
+      "term": "AppUserEmailAccount",
+      "definition": "Logical link between an app user and an email address. Owns LastScrapedDateTime, IsDeleted (soft-delete), and is anonymised on deletion.",
+      "addedOn": "2026-09-24T10:37:58.858Z"
+    },
+    {
+      "id": "AppUserEmailConnection",
+      "term": "AppUserEmailConnection",
+      "definition": "Device-level connection to an AppUserEmailAccount. One row per (account, DeviceId). Carries per-device ConnectionStatus.",
+      "addedOn": "2026-09-24T10:37:58.858Z"
+    },
+    {
+      "id": "AppUserEmailScanLog",
+      "term": "AppUserEmailScanLog",
+      "definition": "Metadata for a single scanned email plus its submission state and blob path. Deduplicated by (AppUserEmailAccountId, EmailUid).",
+      "addedOn": "2026-09-24T10:37:58.858Z"
+    },
+    {
+      "id": "EmailUid",
+      "term": "EmailUid",
+      "definition": "Stable provider identifier for a scanned email (e.g. Gmail Message-ID). Used for cross-device dedup. Doc names it EmailUid but text tells the app to use a stable provider identifier.",
+      "addedOn": "2026-09-24T10:37:58.858Z"
+    },
+    {
+      "id": "ConnectionStatus",
+      "term": "ConnectionStatus",
+      "definition": "Connected / Disconnected / ConnectionFailed / Deleted. Only ConnectionFailed prompts the user to reconnect.",
+      "addedOn": "2026-09-24T10:37:58.858Z"
+    },
+    {
+      "id": "SubmissionStatus",
+      "term": "SubmissionStatus",
+      "definition": "Scanned / Selected / Submitted / Declined / Unavailable. Declined/Submitted/Unavailable are terminal.",
+      "addedOn": "2026-09-24T10:37:58.858Z"
+    },
+    {
+      "id": "scrapeFromDateTime",
+      "term": "scrapeFromDateTime",
+      "definition": "Server-provided high-water mark for the app to scan from: LastScrapedDateTime if set, otherwise UtcNow - PassiveBackscrapeInDays.",
+      "addedOn": "2026-09-24T10:37:58.858Z"
+    },
+    {
+      "id": "PassiveBackscrapeInDays",
+      "term": "PassiveBackscrapeInDays",
+      "definition": "New app-setting (default 7) used to compute scrapeFromDateTime for accounts with LastScrapedDateTime=NULL.",
+      "addedOn": "2026-09-24T10:37:58.858Z"
+    },
+    {
+      "id": "passivesubmission",
+      "term": "passivesubmission",
+      "definition": "Service Bus queue that the receipt service subscribes to for ProcessPassiveSubmissionAsyncCommand messages.",
+      "addedOn": "2026-09-24T10:37:58.858Z"
+    },
+    {
+      "id": "ProcessPassiveSubmissionAsyncCommand",
+      "term": "ProcessPassiveSubmissionAsyncCommand",
+      "definition": "Outbox MessageSubject dispatched after a successful raw-content upload. Payload contains appUserId, scanId, contentUrl (blob URL + 90-day read SAS).",
+      "addedOn": "2026-09-24T10:37:58.858Z"
+    },
+    {
+      "id": "useraccountstatusupdated",
+      "term": "useraccountstatusupdated",
+      "definition": "Existing topic consumed by AccountStatusFunction; extended by this story to run the email-account anonymisation flow for actionable statuses (Deleted, DroppedOut, FraudulentAccountBlacklistedByAdmin, AccountDisabledByUser).",
+      "addedOn": "2026-09-24T10:37:58.858Z"
+    },
+    {
+      "id": "rl_storage",
+      "term": "rl_storage",
+      "definition": "Existing retailer-linking Azure storage account. Passive Collection reuses it with one container per user.",
+      "addedOn": "2026-09-24T10:37:58.858Z"
+    },
+    {
+      "id": "nullifexceedsmaxlength",
+      "term": "NullIfExceedsMaxLength",
+      "definition": "Helper that returns NULL when a string value exceeds the specified DB max length.",
+      "addedOn": "2026-09-29T08:17:58.907Z"
+    },
+    {
+      "id": "truncatetodecimalplaces",
+      "term": "TruncateToDecimalPlaces",
+      "definition": "Helper that truncates a decimal to a fixed number of decimal places (money=2, Volume=3) without rounding.",
+      "addedOn": "2026-09-29T08:17:58.907Z"
+    },
+    {
+      "id": "transcriptioncomplete-queue",
+      "term": "transcriptioncomplete queue",
+      "definition": "Service bus queue whose messages carry transcribed receipt data to be persisted.",
+      "addedOn": "2026-09-29T08:17:58.907Z"
+    },
+    {
+      "id": "inviteguid",
+      "term": "inviteGuid",
+      "definition": "The invitation GUID embedded in the waiting-list deeplink path.",
+      "addedOn": "2026-10-01T05:56:28.377Z"
+    },
+    {
+      "id": "deeplink",
+      "term": "deeplink",
+      "definition": "A URL that should open the app directly into the waiting-list registration flow.",
+      "addedOn": "2026-10-01T05:56:28.377Z"
+    },
+    {
+      "id": "countrycode",
+      "term": "countryCode",
+      "definition": "The locale segment in the invitation URL path, such as gb.",
+      "addedOn": "2026-10-01T05:56:28.377Z"
     }
   ]
 }

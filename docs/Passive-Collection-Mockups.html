@@ -1,0 +1,717 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Passive Collection — User Journey Storyboard (Ticket 214774)</title>
+<style>
+  :root{
+    --bg:#f4f5f7;
+    --ink:#111827;
+    --sub:#6b7280;
+    --line:#e5e7eb;
+    --brand:#0f766e;
+    --brand-dark:#0b5b55;
+    --danger:#dc2626;
+    --warn-bg:#fef3c7;
+    --warn-ink:#92400e;
+    --ok-bg:#dcfce7;
+    --ok-ink:#166534;
+    --err-bg:#fee2e2;
+    --err-ink:#991b1b;
+    --info-bg:#e0f2fe;
+    --info-ink:#075985;
+    --shadow:0 8px 24px rgba(17,24,39,.10);
+    --page:#eef1f4;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--page);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  header.page{
+    padding:28px 32px 12px;text-align:center;
+  }
+  header.page h1{margin:0 0 6px;font-size:24px}
+  header.page p{margin:0;color:var(--sub);font-size:14px}
+  .toc{
+    max-width:900px;margin:16px auto 32px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 22px;
+    box-shadow:var(--shadow);
+  }
+  .toc h3{margin:0 0 10px;font-size:14px;color:var(--sub);text-transform:uppercase;letter-spacing:.5px}
+  .toc ol{margin:0;padding-left:20px;font-size:14px;line-height:1.9;color:var(--ink)}
+  .toc ol li b{color:var(--brand-dark)}
+
+  /* Storyboard */
+  .storyboard{
+    max-width:1100px;margin:0 auto;padding:0 20px 60px;
+  }
+  .step{
+    display:grid;
+    grid-template-columns:1fr 400px;
+    gap:32px;
+    align-items:center;
+    padding:36px 0;
+    border-top:1px solid var(--line);
+  }
+  .step:first-child{border-top:0;padding-top:12px}
+  .step .info{padding-right:12px}
+  .step .badge{
+    display:inline-block;background:var(--brand);color:#fff;font-size:12px;font-weight:700;
+    padding:5px 12px;border-radius:999px;letter-spacing:.6px;margin-bottom:10px
+  }
+  .step h2{margin:0 0 8px;font-size:22px}
+  .step h2 small{color:var(--sub);font-weight:500;font-size:14px;margin-left:8px}
+  .step p{margin:0 0 12px;color:#374151;font-size:14px;line-height:1.55}
+  .step ul{margin:8px 0 0;padding-left:20px;color:#374151;font-size:13.5px;line-height:1.7}
+  .step ul li b{color:var(--brand-dark)}
+  .step .api{
+    display:inline-block;font-family:ui-monospace,"Cascadia Mono","SFMono-Regular",Consolas,monospace;
+    background:#111827;color:#f9fafb;padding:4px 10px;border-radius:6px;font-size:12px;margin-top:8px
+  }
+  .arrow{
+    text-align:center;padding:8px 0;color:var(--brand);font-size:28px;font-weight:700;
+    line-height:1
+  }
+  .arrow .lbl{display:block;font-size:11px;color:var(--sub);letter-spacing:.5px;margin-top:2px;font-weight:600}
+
+  /* Phone frame */
+  .frame{
+    background:#111;
+    border-radius:38px;
+    padding:14px;
+    box-shadow:var(--shadow);
+    width:360px;
+    justify-self:end;
+  }
+  .screen{
+    background:var(--bg);
+    border-radius:26px;
+    overflow:hidden;
+    height:720px;
+    display:flex;flex-direction:column;
+    position:relative;
+  }
+  .notch{
+    height:22px;background:#111;border-radius:0 0 14px 14px;width:130px;margin:0 auto
+  }
+  .statusbar{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:8px 18px 4px;font-size:12px;color:var(--ink);font-weight:600
+  }
+  .appbar{
+    background:#fff;padding:14px 16px;border-bottom:1px solid var(--line);
+    display:flex;align-items:center;gap:10px
+  }
+  .appbar .back{width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;color:var(--sub)}
+  .appbar h2{margin:0;font-size:16px;flex:1}
+  .appbar .action{color:var(--brand);font-weight:600;font-size:14px}
+  .body{flex:1;overflow:auto;padding:14px 16px 80px}
+  .body.tight{padding-bottom:24px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+  .row{display:flex;align-items:center;gap:12px}
+  .avatar{width:38px;height:38px;border-radius:10px;background:#eef2ff;display:inline-flex;align-items:center;justify-content:center;font-weight:700;color:#4f46e5}
+  .avatar.g{background:#fce7e7;color:#b91c1c}
+  .avatar.y{background:#f3e8ff;color:#7e22ce}
+  .avatar.o{background:#dbeafe;color:#1d4ed8}
+  .title{font-weight:600;font-size:14.5px}
+  .sub{color:var(--sub);font-size:12px;margin-top:2px}
+  .chip{display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:600}
+  .chip.ok{background:var(--ok-bg);color:var(--ok-ink)}
+  .chip.err{background:var(--err-bg);color:var(--err-ink)}
+  .chip.mut{background:#f3f4f6;color:#374151}
+  .chip.info{background:var(--info-bg);color:var(--info-ink)}
+  .dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+  .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 16px;border-radius:12px;border:0;font-weight:600;font-size:14px;width:100%}
+  .btn.primary{background:var(--brand);color:#fff}
+  .btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+  .btn.small{padding:8px 12px;font-size:13px;width:auto}
+  .fab{position:absolute;bottom:20px;left:16px;right:16px}
+  .divider{height:1px;background:var(--line);margin:12px 0}
+  .kv{display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:13.5px}
+  .kv .k{color:var(--sub)}
+  .kv .v{font-weight:600}
+  .label{font-size:12px;color:var(--sub);margin-bottom:6px}
+  .input{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px}
+  .input.err{border-color:#fca5a5;background:#fff5f5}
+  .input.ok{border-color:#86efac}
+  .err-text{color:var(--err-ink);font-size:12px;margin-top:6px;display:flex;gap:6px;align-items:center}
+  .ok-text{color:var(--ok-ink);font-size:12px;margin-top:6px;display:flex;gap:6px;align-items:center}
+  .hint{color:var(--sub);font-size:12px;margin-top:6px}
+  .tile{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px}
+  .tile .chev{margin-left:auto;color:var(--sub)}
+  .banner{background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:12px;display:flex;gap:10px;align-items:flex-start;margin-bottom:12px}
+  .banner.err{background:#fef2f2;border-color:#fecaca}
+  .banner.ok{background:#ecfdf5;border-color:#bbf7d0}
+  .banner .icon{width:22px;height:22px;flex-shrink:0}
+  .checkbox{width:20px;height:20px;border-radius:6px;border:1.5px solid #cbd5e1;background:#fff;flex-shrink:0}
+  .checkbox.checked{background:var(--brand);border-color:var(--brand);position:relative}
+  .checkbox.checked::after{content:"";position:absolute;left:5px;top:2px;width:6px;height:11px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+  .email-row{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+  .email-row:last-child{border-bottom:0}
+  .email-row .content{flex:1;min-width:0}
+  .email-row .sender{font-size:12px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .email-row .subj{font-weight:600;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+  .email-row .date{font-size:11px;color:var(--sub);margin-top:4px}
+  .email-row .decline{color:var(--danger);font-size:12px;font-weight:600;align-self:flex-start;margin-top:2px}
+  .paginator{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--sub);padding:12px 0 4px}
+  .sync-chip{position:absolute;left:16px;right:16px;bottom:16px;background:#111827;color:#fff;border-radius:12px;padding:10px 12px;display:flex;gap:10px;align-items:center;font-size:13px;box-shadow:var(--shadow)}
+  .spinner{width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;animation:spin 1s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 16px;color:var(--sub)}
+  .empty .art{width:96px;height:96px;border-radius:50%;background:#eef2ff;display:flex;align-items:center;justify-content:center;margin-bottom:14px;font-size:44px}
+  .empty h3{color:var(--ink);margin:0 0 6px;font-size:16px}
+  .empty p{margin:0 0 16px;font-size:13px}
+  .modal-overlay{position:absolute;inset:0;background:rgba(17,24,39,.55);display:flex;align-items:flex-end;justify-content:center;padding:12px}
+  .modal{background:#fff;border-radius:20px;padding:18px 16px 12px;width:100%;box-shadow:var(--shadow)}
+  .modal h3{margin:0 0 6px;font-size:16px}
+  .modal p{margin:0 0 14px;color:var(--sub);font-size:13px}
+  .radio-row{display:flex;gap:12px;padding:12px;border:1px solid var(--line);border-radius:12px;margin-bottom:8px;align-items:flex-start}
+  .radio{width:18px;height:18px;border-radius:50%;border:1.5px solid #cbd5e1;flex-shrink:0;margin-top:2px}
+  .radio.on{border-color:var(--brand);background:radial-gradient(circle,var(--brand) 40%,#fff 42%)}
+  .radio-row.danger{border-color:#fecaca;background:#fff5f5}
+  .radio-row .rlabel{font-weight:600;font-size:14px}
+  .radio-row .rsub{color:var(--sub);font-size:12px;margin-top:2px}
+  .toast{position:absolute;left:16px;right:16px;bottom:16px;background:#065f46;color:#ecfdf5;border-radius:12px;padding:10px 12px;font-size:13px;display:flex;gap:8px;align-items:center}
+
+  @media (max-width: 900px){
+    .step{grid-template-columns:1fr;gap:16px}
+    .step .info{padding-right:0}
+    .frame{justify-self:center}
+  }
+
+  @media print{
+    body{background:#fff}
+    header.page,.toc,.arrow{page-break-after:always}
+    .step{page-break-after:always;padding:20px 0;border:0;grid-template-columns:1fr;gap:16px}
+    .step:last-child{page-break-after:auto}
+    .frame{justify-self:center}
+    .arrow{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="page">
+  <h1>Passive Collection — App User Journey (Step 1 → Step 12)</h1>
+  <p>Ticket #214774 · Screens shown in the order the user actually experiences them, top → bottom.</p>
+</header>
+
+<div class="toc">
+  <h3>Journey at a glance</h3>
+  <ol>
+    <li><b>Step 1 —</b> First launch, no mailboxes linked (Empty home)</li>
+    <li><b>Step 2 —</b> User taps "Link an email" → Provider Picker</li>
+    <li><b>Step 3 —</b> Enter email address → validated with backend</li>
+    <li><b>Step 4 —</b> On-device IMAP authentication (app password / OAuth)</li>
+    <li><b>Step 5 —</b> Home refreshed — new account shown as Connected</li>
+    <li><b>Step 6 —</b> Auto scan starts → Scanned emails list</li>
+    <li><b>Step 7 —</b> User Selects / Declines → background upload chip appears</li>
+    <li><b>Step 8 —</b> Second phone: "Also connect on this device?" prompt</li>
+    <li><b>Step 9 —</b> Days later: app-password revoked → Reconnect banner</li>
+    <li><b>Step 10 —</b> Trying to link an email that's already owned by someone else (error state)</li>
+    <li><b>Step 11 —</b> User taps Disconnect → scope choice (this phone vs everywhere)</li>
+    <li><b>Step 12 —</b> Server-driven cleanup (account deletion / dropout)</li>
+  </ol>
+</div>
+
+<div class="storyboard">
+
+  <!-- STEP 1 -->
+  <div class="step">
+    <div class="info">
+      <span class="badge">STEP 1</span>
+      <h2>First launch — no mailboxes linked <small>Empty home</small></h2>
+      <p>User opens <b>Menu → Email receipts</b> for the first time. Nothing linked yet, so the screen shows an empty illustration and a single primary CTA.</p>
+      <ul>
+        <li><b>Backend call:</b> <code>GET /user/email-accounts</code> returns <code>currentDevice: []</code>, <code>otherDevices: []</code>.</li>
+        <li>No banners, no chips — just "Link an email".</li>
+      </ul>
+      <span class="api">GET /user/email-accounts → 200 (empty)</span>
+    </div>
+    <div class="frame">
+      <div class="screen">
+        <div class="notch"></div>
+        <div class="statusbar"><span>9:41</span><span>●●● ▂ 100%</span></div>
+        <div class="appbar"><span class="back">‹</span><h2>Email receipts</h2></div>
+        <div class="body">
+          <div class="empty">
+            <div class="art">✉️</div>
+            <h3>No email accounts linked</h3>
+            <p>Connect Gmail, Yahoo or Outlook and let Shoppix earn tokens from your receipts automatically.</p>
+            <button class="btn primary" style="max-width:220px">Link an email</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="arrow">↓<span class="lbl">TAP "LINK AN EMAIL"</span></div>
+
+  <!-- STEP 2 -->
+  <div class="step">
+    <div class="info">
+      <span class="badge">STEP 2</span>
+      <h2>Choose provider <small>Gmail / Yahoo / Outlook</small></h2>
+      <p>Only three providers are supported (§4.3 <code>emailProvider</code> validation). Anything else → <b>INVALID_EMAIL_PROVIDER</b>.</p>
+      <ul>
+        <li>No network call yet — pure client screen.</li>
+        <li>Security hint reassures user that credentials stay on device.</li>
+      </ul>
+    </div>
+    <div class="frame">
+      <div class="screen">
+        <div class="notch"></div>
+        <div class="statusbar"><span>9:41</span><span>●●● ▂ 100%</span></div>
+        <div class="appbar"><span class="back">‹</span><h2>Link an email</h2></div>
+        <div class="body">
+          <div class="label">Choose your provider</div>
+          <div class="tile" style="margin-bottom:12px">
+            <div class="avatar g">G</div>
+            <div><div class="title">Gmail</div><div class="sub">App password or Google Sign-In</div></div>
+            <span class="chev">›</span>
+          </div>
+          <div class="tile" style="margin-bottom:12px">
+            <div class="avatar y">Y</div>
+            <div><div class="title">Yahoo Mail</div><div class="sub">App password</div></div>
+            <span class="chev">›</span>
+          </div>
+          <div class="tile">
+            <div class="avatar o">O</div>
+            <div><div class="title">Outlook / Hotmail</div><div class="sub">Microsoft Sign-In</div></div>
+            <span class="chev">›</span>
+          </div>
+          <p class="hint" style="margin-top:20px">🔒 We never see or store your email password. Credentials stay on this phone only.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="arrow">↓<span class="lbl">TAP GMAIL</span></div>
+
+  <!-- STEP 3 -->
+  <div class="step">
+    <div class="info">
+      <span class="badge">STEP 3</span>
+      <h2>Enter email address <small>Availability check</small></h2>
+      <p>User types the address and taps Continue. App calls <code>POST /validate</code> to confirm the address is available on this device.</p>
+      <ul>
+        <li>200 empty body → proceed to on-device auth.</li>
+        <li>Provider dropdown is pre-selected from Step 2 (Gmail).</li>
+      </ul>
+      <span class="api">POST /user/email-accounts/validate → 200</span>
+    </div>
+    <div class="frame">
+      <div class="screen">
+        <div class="notch"></div>
+        <div class="statusbar"><span>9:41</span><span>●●● ▂ 100%</span></div>
+        <div class="appbar"><span class="back">‹</span><h2>Add Gmail account</h2></div>
+        <div class="body">
+          <div class="label">Email address</div>
+          <div class="input ok">user@gmail.com</div>
+          <div class="ok-text"><span>✓</span> Available — you can link this address</div>
+          <div class="divider"></div>
+          <div class="label">Provider</div>
+          <div class="input" style="display:flex;justify-content:space-between;align-items:center">
+            <span>Gmail</span><span style="color:var(--sub)">▾</span>
+          </div>
+          <button class="btn primary" style="margin-top:24px">Continue</button>
+          <p class="hint">🔒 Password is never sent to Shoppix.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="arrow">↓<span class="lbl">CONTINUE</span></div>
+
+  <!-- STEP 4 -->
+  <div class="step">
+    <div class="info">
+      <span class="badge">STEP 4</span>
+      <h2>On-device IMAP authentication <small>Credentials stay local</small></h2>
+      <p>User creates a Gmail app password (or does OAuth on Outlook) and pastes it into the app. Nothing is sent to Shoppix backend — the password is stored in Android Keystore / iOS Keychain.</p>
+      <ul>
+        <li>On success → <code>POST /user/email-accounts</code> with <code>emailAddress</code> + <code>emailProvider</code>.</li>
+        <li>On later failure (revoked app-password) → <code>POST /:id/connection-failure</code>.</li>
+      </ul>
+      <span class="api">POST /user/email-accounts → 201 { id }</span>
+    </div>
+    <div class="frame">
+      <div class="screen">
+        <div class="notch"></div>
+        <div class="statusbar"><span>9:41</span><span>●●● ▂ 100%</span></div>
+        <div class="appbar"><span class="back">‹</span><h2>Connect user@gmail.com</h2></div>
+        <div class="body">
+          <div class="card">
+            <div class="title" style="margin-bottom:8px">Enter Gmail app password</div>
+            <div class="sub" style="margin-bottom:14px">Follow the steps to create a 16-character app password in your Google Account.</div>
+            <div class="input" style="letter-spacing:6px">••••  ••••  ••••  ••••</div>
+            <div class="hint">This stays in this phone's secure storage. Shoppix never sees it.</div>
+          </div>
+          <div class="banner">
+            <span class="icon">🔒</span>
+            <div style="font-size:12.5px;color:#78350f">
+              We only look for order and receipt emails from a list of approved senders. Nothing else is uploaded.
+            </div>
+          </div>
+          <button class="btn primary" style="margin-top:14px">Connect</button>
+          <button class="btn ghost" style="margin-top:10px">How do I create an app password?</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="arrow">↓<span class="lbl">CONNECT SUCCESS</span></div>
+
+  <!-- STEP 5 -->
+  <div class="step">
+    <div class="info">
+      <span class="badge">STEP 5</span>
+      <h2>Home refreshed — account is Connected <small>List view</small></h2>
+      <p>App re-fetches <code>GET /user/email-accounts</code>. New mailbox appears in <b>currentDevice</b> with a green Connected chip. First scan is triggered in the background.</p>
+      <ul>
+        <li>No banners for a healthy Connected account.</li>
+        <li>App uses <code>scrapeFromDateTime</code> from the response for the first scan window.</li>
+      </ul>
+      <span class="api">GET /user/email-accounts → 200</span>
+    </div>
+    <div class="frame">
+      <div class="screen">
+        <div class="notch"></div>
+        <div class="statusbar"><span>9:41</span><span>●●● ▂ 100%</span></div>
+        <div class="appbar"><span class="back">‹</span><h2>Email receipts</h2><span class="action">+ Add</span></div>
+        <div class="body">
+          <div class="card">
+            <div class="row">
+              <div class="avatar g">G</div>
+              <div style="flex:1">
+                <div class="title">user@gmail.com</div>
+                <div class="sub">Scanning your inbox…</div>
+              </div>
+              <span class="chip ok"><span class="dot"></span>Connected</span>
+            </div>
+          </div>
+          <div class="banner ok">
+            <span class="icon">✅</span>
+            <div style="font-size:12.5px;color:#065f46">
+              Connected. We'll show you receipt emails you can share with Shoppix.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="arrow">↓<span class="lbl">SCAN COMPLETES</span></div>
+
+  <!-- STEP 6 -->
+  <div class="step">
+    <div class="info">
+      <span class="badge">STEP 6</span>
+      <h2>Scanned emails — Select or Decline <small>User consent</small></h2>
+      <p>App searched the mailbox from <code>scrapeFromDateTime</code>, matched against global <code>inbox-filters</code>, sent metadata in bulk, and now shows the user what was found.</p>
+      <ul>
+        <li>Checkbox → <b>Selected</b>. Decline link → <b>Declined</b> (terminal — no undo).</li>
+        <li>Hidden <code>scanId</code> per row is the durable handle for later PUT.</li>
+        <li>Paginated at 50 rows per page (max 200).</li>
+      </ul>
+      <span class="api">POST /:id/scans → 201 · GET /:id/scans?status=scanned → 200</span>
+    </div>
+    <div class="frame">
+      <div class="screen">
+        <div class="notch"></div>
+        <div class="statusbar"><span>9:41</span><span>●●● ▂ 100%</span></div>
+        <div class="appbar"><span class="back">‹</span><h2>Scanned emails</h2><span class="action">Select all</span></div>
+        <div class="body">
+          <div class="card" style="padding:8px 14px">
+            <div class="kv" style="padding:6px 0"><span class="k">user@gmail.com</span><span class="v">128 emails</span></div>
+          </div>
+          <div class="card" style="padding:6px 14px">
+            <div class="email-row">
+              <div class="checkbox checked"></div>
+              <div class="content">
+                <div class="sender">orders@example.com</div>
+                <div class="subj">Your Order Confirmation #A1592</div>
+                <div class="date">23 Sep · 08:45</div>
+              </div>
+              <span class="decline">Decline</span>
+            </div>
+            <div class="email-row">
+              <div class="checkbox checked"></div>
+              <div class="content">
+                <div class="sender">no-reply@amazonshopping.in</div>
+                <div class="subj">Delivered: Nike Running Shoes</div>
+                <div class="date">22 Sep · 19:12</div>
+              </div>
+              <span class="decline">Decline</span>
+            </div>
+            <div class="email-row">
+              <div class="checkbox"></div>
+              <div class="content">
+                <div class="sender">receipts@bigbasket.com</div>
+                <div class="subj">Weekly grocery receipt (₹1,842)</div>
+                <div class="date">21 Sep · 10:03</div>
+              </div>
+              <span class="decline">Decline</span>
+            </div>
+            <div class="email-row">
+              <div class="checkbox"></div>
+              <div class="content">
+                <div class="sender">no-reply@zomato.com</div>
+                <div class="subj">Order delivered — Rate your meal</div>
+                <div class="date">20 Sep · 20:41</div>
+              </div>
+              <span class="decline">Decline</span>
+            </div>
+            <div class="email-row">
+              <div class="checkbox checked"></div>
+              <div class="content">
+                <div class="sender">shipping@flipkart.com</div>
+                <div class="subj">Your Flipkart order is out for delivery</div>
+                <div class="date">20 Sep · 11:20</div>
+              </div>
+              <span class="decline">Decline</span>
+            </div>
+          </div>
+          <div class="paginator"><span>Page 1 of 3</span><span>‹  1  2  3  ›</span></div>
+        </div>
+        <div class="fab"><button class="btn primary">Submit 3 selected</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="arrow">↓<span class="lbl">TAP SUBMIT SELECTED</span></div>
+
+  <!-- STEP 7 -->
+  <div class="step">
+    <div class="info">
+      <span class="badge">STEP 7</span>
+      <h2>Background upload runs <small>Non-blocking</small></h2>
+      <p>User continues using the app. A small dark chip at the bottom shows uploader progress. Each PUT is idempotent (blob keyed by <code>scanId</code>) so retries are safe. On success the backend writes an Outbox row → <code>passivesubmission</code> queue → Receipt service.</p>
+      <ul>
+        <li>PATCH decisions batch: <code>PATCH /:id/scans</code>.</li>
+        <li>Each Selected row: <code>PUT /:id/scans/{scanId}</code> with raw MIME.</li>
+      </ul>
+      <span class="api">PATCH /:id/scans → 204 · PUT /:id/scans/{scanId} → 204</span>
+    </div>
+    <div class="frame">
+      <div class="screen">
+        <div class="notch"></div>
+        <div class="statusbar"><span>9:41</span><span>●●● ▂ 100%</span></div>
+        <div class="appbar"><span class="back">‹</span><h2>Home</h2></div>
+        <div class="body">
+          <div class="card"><div class="title">Welcome back, Akash 👋</div><div class="sub">You have 342 tokens</div></div>
+          <div class="card"><div class="title">Recent snap</div><div class="sub">2 receipts pending review</div></div>
+          <div class="card"><div class="title">Weekly bonus</div><div class="sub">Snap 3 more receipts to earn 50 tokens</div></div>
+        </div>
+        <div class="sync-chip">
+          <div class="spinner"></div>
+          <div style="flex:1">
+            <div style="font-weight:600">Uploading 3 of 12 receipts…</div>
+            <div style="font-size:11px;opacity:.75">Passive collection · user@gmail.com</div>
+          </div>
+          <span style="opacity:.7">Hide</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="arrow">↓<span class="lbl">USER PICKS UP A SECOND PHONE</span></div>
+
+  <!-- STEP 8 -->
+  <div class="step">
+    <div class="info">
+      <span class="badge">STEP 8</span>
+      <h2>Second phone: "Also connect on this device?" <small>Multi-device</small></h2>
+      <p>On the new phone, <code>GET /user/email-accounts</code> returns the mailbox under <code>otherDevices</code>. App shows a bottom-sheet asking if the user wants to add it here too.</p>
+      <ul>
+        <li>Confirm → skip email entry, POST with the reused <code>emailProvider</code>.</li>
+        <li>Same <code>AppUserEmailAccount.Id</code> is reused; a new <code>AppUserEmailConnection</code> row is created for this DeviceId.</li>
+      </ul>
+      <span class="api">POST /user/email-accounts → 201 (new connection, same account id)</span>
+    </div>
+    <div class="frame">
+      <div class="screen">
+        <div class="notch"></div>
+        <div class="statusbar"><span>9:41</span><span>●●● ▂ 100%</span></div>
+        <div class="appbar"><span class="back">‹</span><h2>Email receipts</h2></div>
+        <div class="body">
+          <div class="card" style="opacity:.5">
+            <div class="row">
+              <div class="avatar g">G</div>
+              <div style="flex:1"><div class="title">user@gmail.com</div><div class="sub">Connected on: Pixel 7</div></div>
+              <span class="chip info">+ Add here</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-overlay">
+          <div class="modal">
+            <h3>Also connect on this phone?</h3>
+            <p><b>user@gmail.com</b> is already linked to Shoppix on your other device (<b>Pixel 7</b>). Add it here too so it keeps scanning on this phone as well?</p>
+            <button class="btn primary">Yes, connect on this phone</button>
+            <button class="btn ghost" style="margin-top:8px">Not now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="arrow">↓<span class="lbl">A FEW DAYS PASS…</span></div>
+
+  <!-- STEP 9 -->
+  <div class="step">
+    <div class="info">
+      <span class="badge">STEP 9</span>
+      <h2>Reconnect prompt <small>ConnectionFailed only</small></h2>
+      <p>User revoked the Gmail app password. Next mailbox call fails on-device → app POSTs <code>/:id/connection-failure</code>. Home now shows a red banner. Voluntary disconnects do <b>not</b> show this — only <code>ConnectionFailed</code>.</p>
+      <ul>
+        <li>User's earlier Selected rows stay Selected on the server, so uploads resume automatically after reconnect.</li>
+        <li>Reconnect reuses <code>POST /user/email-accounts</code> → transitions ConnectionFailed → Connected.</li>
+      </ul>
+      <span class="api">POST /:id/connection-failure → 204</span>
+    </div>
+    <div class="frame">
+      <div class="screen">
+        <div class="notch"></div>
+        <div class="statusbar"><span>9:41</span><span>●●● ▂ 100%</span></div>
+        <div class="appbar"><span class="back">‹</span><h2>Email receipts</h2></div>
+        <div class="body tight">
+          <div class="banner err" style="margin-bottom:16px">
+            <span class="icon">⚠️</span>
+            <div>
+              <div style="font-weight:700;font-size:14px;color:#991b1b">We can't sign in to user@gmail.com</div>
+              <div style="font-size:12.5px;color:#7f1d1d;margin-top:4px">Gmail says the app password is no longer valid. Please generate a new one and reconnect to keep receiving passive rewards.</div>
+            </div>
+          </div>
+          <button class="btn primary">Reconnect user@gmail.com</button>
+          <button class="btn ghost" style="margin-top:10px">Not now</button>
+          <div class="divider"></div>
+          <div class="kv"><span class="k">Status</span><span class="v" style="color:#991b1b">ConnectionFailed</span></div>
+          <div class="kv"><span class="k">Last scanned</span><span class="v">20 Sep, 18:02</span></div>
+          <div class="kv"><span class="k">Pending selected uploads</span><span class="v">5</span></div>
+          <p class="hint" style="margin-top:14px">Your selections are safe on our servers. When you reconnect, we'll pick up where we left off — no re-selecting needed.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="arrow">↓<span class="lbl">USER TRIES ANOTHER FAILURE CASE</span></div>
+
+  <!-- STEP 10 -->
+  <div class="step">
+    <div class="info">
+      <span class="badge">STEP 10</span>
+      <h2>Failure — email is owned by another user <small>Blocked at /validate</small></h2>
+      <p>User tries to link an address that is already active under a different Shoppix account. The filtered unique index on <code>EmailAddress WHERE IsDeleted = 0</code> makes this a hard block.</p>
+      <ul>
+        <li>Inline error is friendly (no info leak about the other user).</li>
+        <li>Same UX pattern reused for <code>INVALID_EMAIL_ADDRESS</code>. For <code>EMAIL_ALREADY_CONNECTED_ON_DEVICE</code> the app skips forward to the scanned list.</li>
+      </ul>
+      <span class="api">POST /validate → 400 EMAIL_IN_USE</span>
+    </div>
+    <div class="frame">
+      <div class="screen">
+        <div class="notch"></div>
+        <div class="statusbar"><span>9:41</span><span>●●● ▂ 100%</span></div>
+        <div class="appbar"><span class="back">‹</span><h2>Add Gmail account</h2></div>
+        <div class="body">
+          <div class="label">Email address</div>
+          <div class="input err">shared@gmail.com</div>
+          <div class="err-text"><span>⚠️</span> This email is already connected to another account</div>
+          <div class="hint">Choose a different address, or contact support if you believe this is a mistake.</div>
+          <div class="divider"></div>
+          <div class="label">Provider</div>
+          <div class="input" style="display:flex;justify-content:space-between;align-items:center">
+            <span>Gmail</span><span style="color:var(--sub)">▾</span>
+          </div>
+          <button class="btn primary" style="margin-top:24px;opacity:.6">Continue</button>
+          <p class="hint">🔒 Password is never sent to Shoppix.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="arrow">↓<span class="lbl">USER DECIDES TO DISCONNECT</span></div>
+
+  <!-- STEP 11 -->
+  <div class="step">
+    <div class="info">
+      <span class="badge">STEP 11</span>
+      <h2>Disconnect — choose the scope <small>Device only vs everywhere</small></h2>
+      <p>User taps overflow → Disconnect. A bottom sheet gives two radio options: quiet local disconnect (<code>scope=device</code>) vs full anonymisation (<code>scope=all</code>).</p>
+      <ul>
+        <li><b>Device only</b> — this phone stops scanning; other phones continue.</li>
+        <li><b>Everywhere &amp; delete</b> — email anonymised, scan logs deleted, blobs removed. Terminal.</li>
+      </ul>
+      <span class="api">DELETE /:id?scope=device | scope=all → 204</span>
+    </div>
+    <div class="frame">
+      <div class="screen">
+        <div class="notch"></div>
+        <div class="statusbar"><span>9:41</span><span>●●● ▂ 100%</span></div>
+        <div class="appbar"><span class="back">‹</span><h2>Email receipts</h2></div>
+        <div class="body">
+          <div class="card" style="opacity:.55">
+            <div class="row">
+              <div class="avatar g">G</div>
+              <div style="flex:1"><div class="title">user@gmail.com</div><div class="sub">Last scanned · 23 Sep, 09:15</div></div>
+              <span class="chip ok"><span class="dot"></span>Connected</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-overlay">
+          <div class="modal">
+            <h3>Disconnect user@gmail.com?</h3>
+            <p>Choose how you want to disconnect this mailbox.</p>
+            <div class="radio-row">
+              <div class="radio on"></div>
+              <div>
+                <div class="rlabel">Disconnect on this phone only</div>
+                <div class="rsub">Keeps scanning on your other devices. You won't be nagged to reconnect here.</div>
+              </div>
+            </div>
+            <div class="radio-row danger">
+              <div class="radio"></div>
+              <div>
+                <div class="rlabel" style="color:#991b1b">Disconnect everywhere &amp; delete data</div>
+                <div class="rsub" style="color:#7f1d1d">Removes this mailbox from all devices, erases scanned metadata and all uploaded raw emails.</div>
+              </div>
+            </div>
+            <button class="btn primary" style="margin-top:8px">Disconnect this phone</button>
+            <button class="btn ghost" style="margin-top:8px">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="arrow">↓<span class="lbl">OR SERVER-DRIVEN CLEANUP</span></div>
+
+  <!-- STEP 12 -->
+  <div class="step">
+    <div class="info">
+      <span class="badge">STEP 12</span>
+      <h2>Server-driven cleanup <small>Account deletion / dropout</small></h2>
+      <p>Profile side publishes <code>useraccountstatusupdated</code> for actionable statuses (Deleted, DroppedOut, Fraudulent, AccountDisabledByUser). The extended <code>AccountStatusFunction</code> anonymises all mailboxes, deletes scan logs and the blob container.</p>
+      <ul>
+        <li>Next app call returns <code>404 EMAIL_ACCOUNT_NOT_FOUND</code>.</li>
+        <li>App silently purges local cache and shows the empty state again.</li>
+      </ul>
+      <span class="api">GET/POST/PATCH/PUT/DELETE → 404 EMAIL_ACCOUNT_NOT_FOUND</span>
+    </div>
+    <div class="frame">
+      <div class="screen">
+        <div class="notch"></div>
+        <div class="statusbar"><span>9:41</span><span>●●● ▂ 100%</span></div>
+        <div class="appbar"><span class="back">‹</span><h2>Email receipts</h2><span class="action">+ Add</span></div>
+        <div class="body">
+          <div class="empty">
+            <div class="art">✉️</div>
+            <h3>No email accounts linked</h3>
+            <p>Connect your Gmail, Yahoo or Outlook and let Shoppix earn tokens from your receipts automatically.</p>
+            <button class="btn primary" style="max-width:220px">Link an email</button>
+          </div>
+        </div>
+        <div class="toast">✅  Your account was updated. Linked mailboxes were cleared.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow" style="color:var(--sub)">✓<span class="lbl">END OF JOURNEY</span></div>
+
+</div>
+
+<footer style="padding:24px 32px 40px;color:var(--sub);font-size:12px;text-align:center;max-width:900px;margin:0 auto">
+  Storyboard built from the client contract in <code>Passive-Collection.pdf</code> §11.
+  Real designs are not attached to Azure Boards #214774 — colors, spacing, and copy are placeholders for QA visualization only.
+  Use <b>Ctrl + P → Save as PDF</b> to print one step per page, or <b>Win + Shift + S</b> to screenshot individual phone frames.
+</footer>
+
+</body>
+</html>
