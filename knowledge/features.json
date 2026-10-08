@@ -269,6 +269,48 @@
       "description": "Invitation GUIDs embedded in deep links must be parsed and validated without accepting malformed tokens.",
       "module": "Waiting List",
       "addedOn": "2026-10-01T05:56:28.374Z"
+    },
+    {
+      "id": "weekly-challenge",
+      "name": "Weekly Challenge",
+      "description": "Weekly reward feature with track-based scratch cards for invited users.",
+      "module": "Rewards",
+      "addedOn": "2026-10-08T11:55:50.790Z"
+    },
+    {
+      "id": "weekly-challenge-paper-track",
+      "name": "Weekly Challenge Paper Track",
+      "description": "Paper receipt track creates instant + weekly card pair after first qualifying approval in week.",
+      "module": "Rewards",
+      "addedOn": "2026-10-08T11:55:50.790Z"
+    },
+    {
+      "id": "weekly-challenge-email-track",
+      "name": "Weekly Challenge Email Track",
+      "description": "Email receipt track creates instant + weekly card pair after first qualifying approval in week.",
+      "module": "Rewards",
+      "addedOn": "2026-10-08T11:55:50.790Z"
+    },
+    {
+      "id": "weekly-challenge-scratch-flow",
+      "name": "Weekly Challenge Scratch Flow",
+      "description": "Scratch journey with unlock/expiry gating, one-time payout, and revealed state.",
+      "module": "Rewards",
+      "addedOn": "2026-10-08T11:55:50.790Z"
+    },
+    {
+      "id": "weekly-challenge-home-tile",
+      "name": "Weekly Challenge Home Tile",
+      "description": "Homepage summary tile showing cards-to-unlock and contextual prompts.",
+      "module": "Home",
+      "addedOn": "2026-10-08T11:55:50.790Z"
+    },
+    {
+      "id": "weekly-challenge-token-history",
+      "name": "Weekly Challenge Token History",
+      "description": "Winning scratches create token history entries with Weekly Challenge specific reason and description.",
+      "module": "Incentives",
+      "addedOn": "2026-10-08T11:55:50.790Z"
     }
   ]
 }

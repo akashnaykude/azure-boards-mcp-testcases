@@ -142,14 +142,14 @@
     {
       "id": "token-history-screen",
       "name": "Token History Screen",
-      "description": "Displays the user's balance and reward transactions.",
+      "description": "History listing for reward entries after winning scratch.",
       "elements": [
-        "balance banner",
-        "transaction rows",
-        "reward labels",
-        "running token balance"
+        "transaction reason",
+        "transaction description",
+        "transaction value"
       ],
-      "addedOn": "2026-09-02T10:18:50.304Z"
+      "addedOn": "2026-09-02T10:18:50.304Z",
+      "lastUpdated": "2026-10-08T11:55:50.791Z"
     },
     {
       "id": "manage-shoppix-survey-screen",
@@ -364,6 +364,53 @@
         "invalid invitation error state"
       ],
       "addedOn": "2026-10-01T05:56:28.374Z"
+    },
+    {
+      "id": "home-screen-weekly-challenge-tile",
+      "name": "Home Screen - Weekly Challenge Tile",
+      "description": "Home tile showing total cards to unlock and track prompts.",
+      "elements": [
+        "View challenge CTA",
+        "cards to unlock count",
+        "paper/email prompt text"
+      ],
+      "addedOn": "2026-10-08T11:55:50.791Z"
+    },
+    {
+      "id": "weekly-challenge-overview-screen",
+      "name": "Weekly Challenge Overview Screen",
+      "description": "Main challenge screen with week range, days left, track sections and card states.",
+      "elements": [
+        "Email section",
+        "Paper section",
+        "Instant/Weekly badges",
+        "locked/unlocked/claimed states",
+        "info icon",
+        "back arrow"
+      ],
+      "addedOn": "2026-10-08T11:55:50.791Z"
+    },
+    {
+      "id": "weekly-challenge-scratch-screen",
+      "name": "Scratch Card Screen",
+      "description": "Scratch interaction screen for reveal and result.",
+      "elements": [
+        "Scratch area",
+        "reveal animation",
+        "win/lose message",
+        "View history CTA"
+      ],
+      "addedOn": "2026-10-08T11:55:50.791Z"
+    },
+    {
+      "id": "weekly-challenge-previous-week-stack",
+      "name": "Previous Week Card Stack",
+      "description": "Carry-over stack for last week unscratched valid cards with expiry reminder.",
+      "elements": [
+        "expiry reminder text",
+        "previous week card visual"
+      ],
+      "addedOn": "2026-10-08T11:55:50.791Z"
     }
   ]
 }

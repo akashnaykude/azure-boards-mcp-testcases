@@ -390,6 +390,48 @@
       "term": "countryCode",
       "definition": "The locale segment in the invitation URL path, such as gb.",
       "addedOn": "2026-10-01T05:56:28.377Z"
+    },
+    {
+      "id": "instant-card",
+      "term": "Instant card",
+      "definition": "Card in a pair that unlocks immediately at qualifying approval time.",
+      "addedOn": "2026-10-08T11:55:50.795Z"
+    },
+    {
+      "id": "weekly-card",
+      "term": "Weekly card",
+      "definition": "Card in a pair that unlocks on next Monday at 00:00 UK time.",
+      "addedOn": "2026-10-08T11:55:50.795Z"
+    },
+    {
+      "id": "track",
+      "term": "Track",
+      "definition": "Receipt channel bucket for Weekly Challenge: Paper or Email.",
+      "addedOn": "2026-10-08T11:55:50.795Z"
+    },
+    {
+      "id": "unlock-date",
+      "term": "UnlockDate",
+      "definition": "Timestamp from which card becomes scratchable.",
+      "addedOn": "2026-10-08T11:55:50.795Z"
+    },
+    {
+      "id": "expiry-date",
+      "term": "ExpiryDate",
+      "definition": "Derived cutoff time after which card cannot be scratched and may not be returned in list.",
+      "addedOn": "2026-10-08T11:55:50.795Z"
+    },
+    {
+      "id": "previous-week-cards",
+      "term": "previousWeek cards",
+      "definition": "Last week’s unscratched and unexpired cards shown separately in Weekly Challenge response.",
+      "addedOn": "2026-10-08T11:55:50.795Z"
+    },
+    {
+      "id": "statsig-gate",
+      "term": "Statsig gate",
+      "definition": "Feature flag/experiment control that restricts Weekly Challenge to invited users only.",
+      "addedOn": "2026-10-08T11:55:50.795Z"
     }
   ]
 }

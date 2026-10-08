@@ -613,6 +613,102 @@
       "rule": "Malformed invitation identifiers must be rejected with the user-friendly invalid-link message instead of a crash or raw exception.",
       "feature": "waiting-list-invite-validation",
       "addedOn": "2026-10-01T05:56:28.376Z"
+    },
+    {
+      "id": "wc-cards-created-on-approval",
+      "rule": "Weekly Challenge cards are created only on receipt approval, never on upload.",
+      "feature": "weekly-challenge",
+      "addedOn": "2026-10-08T11:55:50.794Z"
+    },
+    {
+      "id": "wc-track-mapping-paper",
+      "rule": "Paper track uses receipt types 0 and 4.",
+      "feature": "weekly-challenge-paper-track",
+      "addedOn": "2026-10-08T11:55:50.794Z"
+    },
+    {
+      "id": "wc-track-mapping-email",
+      "rule": "Email track uses receipt types 1, 2, and 3 (type 3 pending business confirmation).",
+      "feature": "weekly-challenge-email-track",
+      "addedOn": "2026-10-08T11:55:50.794Z"
+    },
+    {
+      "id": "wc-reason-exclusion",
+      "rule": "Receipts with reason codes 26, 29, or 51 do not qualify for Weekly Challenge card creation.",
+      "feature": "weekly-challenge",
+      "addedOn": "2026-10-08T11:55:50.794Z"
+    },
+    {
+      "id": "wc-reason-inclusion",
+      "rule": "Receipts with reason codes 21, 22, and 23 still qualify for Weekly Challenge card creation.",
+      "feature": "weekly-challenge",
+      "addedOn": "2026-10-08T11:55:50.794Z"
+    },
+    {
+      "id": "wc-first-qualifying-only",
+      "rule": "Only first qualifying receipt per user, track, and week creates a card pair.",
+      "feature": "weekly-challenge",
+      "addedOn": "2026-10-08T11:55:50.794Z"
+    },
+    {
+      "id": "wc-instant-unlock",
+      "rule": "Instant card unlocks at approval time.",
+      "feature": "weekly-challenge-scratch-flow",
+      "addedOn": "2026-10-08T11:55:50.794Z"
+    },
+    {
+      "id": "wc-weekly-unlock",
+      "rule": "Weekly card unlocks next Monday 00:00 UK time.",
+      "feature": "weekly-challenge-scratch-flow",
+      "addedOn": "2026-10-08T11:55:50.794Z"
+    },
+    {
+      "id": "wc-expiry",
+      "rule": "Both cards in pair expire together at Monday 00:00 after the following week, based on issue week.",
+      "feature": "weekly-challenge-scratch-flow",
+      "addedOn": "2026-10-08T11:55:50.794Z"
+    },
+    {
+      "id": "wc-invited-only",
+      "rule": "Only Statsig-invited users receive Weekly Challenge cards; non-invited users do not.",
+      "feature": "weekly-challenge",
+      "addedOn": "2026-10-08T11:55:50.794Z"
+    },
+    {
+      "id": "wc-owner-check",
+      "rule": "Scratch is allowed only for card owner; unknown or other-user card returns not found.",
+      "feature": "weekly-challenge-scratch-flow",
+      "addedOn": "2026-10-08T11:55:50.794Z"
+    },
+    {
+      "id": "wc-before-unlock-block",
+      "rule": "Scratch before unlock returns SCRATCHCARD_NOT_AVAILABLE.",
+      "feature": "weekly-challenge-scratch-flow",
+      "addedOn": "2026-10-08T11:55:50.794Z"
+    },
+    {
+      "id": "wc-after-expiry-block",
+      "rule": "Scratch after expiry returns SCRATCHCARD_EXPIRED.",
+      "feature": "weekly-challenge-scratch-flow",
+      "addedOn": "2026-10-08T11:55:50.794Z"
+    },
+    {
+      "id": "wc-single-payout",
+      "rule": "Scratch payout is processed exactly once; duplicate/parallel scratches do not double-pay.",
+      "feature": "weekly-challenge-scratch-flow",
+      "addedOn": "2026-10-08T11:55:50.794Z"
+    },
+    {
+      "id": "wc-win-history",
+      "rule": "Winning Weekly Challenge scratches create token history entry with Weekly Challenge specific reason text.",
+      "feature": "weekly-challenge-token-history",
+      "addedOn": "2026-10-08T11:55:50.794Z"
+    },
+    {
+      "id": "wc-survey-unchanged",
+      "rule": "Survey scratch card behavior remains unchanged by Weekly Challenge feature.",
+      "feature": "weekly-challenge",
+      "addedOn": "2026-10-08T11:55:50.794Z"
     }
   ]
 }

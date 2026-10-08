@@ -358,6 +358,54 @@
       ],
       "lastTestedOn": "2026-10-01T05:56:28.378Z",
       "testCount": 7
+    },
+    {
+      "id": "weekly-challenge",
+      "ticketIds": [
+        910826
+      ],
+      "lastTestedOn": "2026-10-08T11:55:50.796Z",
+      "testCount": 78
+    },
+    {
+      "id": "weekly-challenge-paper-track",
+      "ticketIds": [
+        910826
+      ],
+      "lastTestedOn": "2026-10-08T11:55:50.796Z",
+      "testCount": 78
+    },
+    {
+      "id": "weekly-challenge-email-track",
+      "ticketIds": [
+        910826
+      ],
+      "lastTestedOn": "2026-10-08T11:55:50.796Z",
+      "testCount": 78
+    },
+    {
+      "id": "weekly-challenge-scratch-flow",
+      "ticketIds": [
+        910826
+      ],
+      "lastTestedOn": "2026-10-08T11:55:50.796Z",
+      "testCount": 78
+    },
+    {
+      "id": "weekly-challenge-home-tile",
+      "ticketIds": [
+        910826
+      ],
+      "lastTestedOn": "2026-10-08T11:55:50.796Z",
+      "testCount": 78
+    },
+    {
+      "id": "weekly-challenge-token-history",
+      "ticketIds": [
+        910826
+      ],
+      "lastTestedOn": "2026-10-08T11:55:50.796Z",
+      "testCount": 78
     }
   ]
 }

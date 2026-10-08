@@ -197,6 +197,25 @@
       ],
       "processedOn": "2026-10-01T05:56:28.365Z",
       "addedOn": "2026-10-01T05:56:28.372Z"
+    },
+    {
+      "id": "910826",
+      "ticketId": 910826,
+      "title": "Weekly Challenge Backend + Figma Screenshots Analysis",
+      "url": "",
+      "type": "Functional Spec",
+      "summary": "Weekly Challenge feature analysis from backend PDF and Figma screenshots; generated functional, negative, UI, and E2E test cases with manual app coverage.",
+      "testCaseCount": 78,
+      "coveredAreas": [
+        "weekly-challenge",
+        "weekly-challenge-paper-track",
+        "weekly-challenge-email-track",
+        "weekly-challenge-scratch-flow",
+        "weekly-challenge-home-tile",
+        "weekly-challenge-token-history"
+      ],
+      "processedOn": "2026-10-08T11:55:50.787Z",
+      "addedOn": "2026-10-08T11:55:50.788Z"
     }
   ]
 }
